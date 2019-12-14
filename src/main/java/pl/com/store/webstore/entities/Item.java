@@ -16,6 +16,10 @@ public class Item {
 
     private String name;
 
+    private String description;
+
+    private String photoUrl;
+
     private BigDecimal price;
 
     @ManyToMany

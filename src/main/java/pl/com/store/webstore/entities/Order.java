@@ -9,21 +9,24 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
+@Table(name = "order_table")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "customer_id")
     private Customer customer;
     @ManyToMany
-    @JoinTable(name = "order_product",
+    @JoinTable(name = "order_item",
             joinColumns = {@JoinColumn(name = "order_id")},
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})
+            inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<Item> items;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
+    @OneToOne
+    private DispatchAddress dispatchAddress;
 
     public Order(Customer customer, List<Item> items, LocalDate orderDate) {
         this.customer = customer;

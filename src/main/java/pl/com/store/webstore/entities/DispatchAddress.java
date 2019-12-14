@@ -7,25 +7,24 @@ import java.util.List;
 
 @Entity
 @NoArgsConstructor
-public class Address {
-        @Id
-        @GeneratedValue(strategy=GenerationType.IDENTITY)
-        private Long id;
+public class DispatchAddress {
 
-        private String city;
-        private String street;
-        private String number;
-        private String zipcode;
-        private boolean isToDispatch;
-        @OneToOne
-        private List<Customer> customers;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Long id;
 
-    public Address(String city, String street, String number, String zipcode, boolean isToDispatch) {
+    private String city;
+    private String street;
+    private String number;
+    private String zipcode;
+    @OneToOne
+    private List<Order> orders;
+
+    public DispatchAddress(String city, String street, String number, String zipcode) {
         this.city = city;
         this.street = street;
         this.number = number;
         this.zipcode = zipcode;
-        this.isToDispatch = isToDispatch;
     }
 
     public Long getId() {
@@ -68,19 +67,11 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    public boolean isToDispatch() {
-        return isToDispatch;
+    public List<Order> getOrders() {
+        return orders;
     }
 
-    public void setToDispatch(boolean toDispatch) {
-        isToDispatch = toDispatch;
-    }
-
-    public List<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }
