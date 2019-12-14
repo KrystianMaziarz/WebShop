@@ -3,7 +3,6 @@ package pl.com.store.webstore.entities;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @NoArgsConstructor

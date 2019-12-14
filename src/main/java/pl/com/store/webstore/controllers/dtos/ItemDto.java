@@ -1,5 +1,7 @@
 package pl.com.store.webstore.controllers.dtos;
 
+import pl.com.store.webstore.entities.Category;
+
 import java.math.BigDecimal;
 
 public class ItemDto {
@@ -8,8 +10,36 @@ public class ItemDto {
 
     private BigDecimal price;
 
-    /*private Description description;*/
+    private String description;
 
+    private Category category;
+
+    private String photoUrl;
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public String getName() {
         return name;
@@ -27,11 +57,5 @@ public class ItemDto {
         this.price = price;
     }
 
-    /*public Description getDescription() {
-        return description;
-    }
 
-    public void setDescription(Description description) {
-        this.description = description;
-    }*/
 }
