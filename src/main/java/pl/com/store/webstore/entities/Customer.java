@@ -23,12 +23,13 @@ public class Customer {
     private String firstname;
 
     private String lastname;
-    //TODO 14.12.2019 relacja
+    @OneToOne
     private Address address;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Order> orders;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
     private boolean islocked;

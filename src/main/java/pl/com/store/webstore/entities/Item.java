@@ -16,15 +16,21 @@ public class Item {
 
     private String name;
 
+    private String description;
+
+    private String photoUrl;
+
     private BigDecimal price;
+    @ManyToOne
+    private Category category;
 
     @ManyToMany
     private List<Order> orders;
 
-    public Item (String name, BigDecimal price, List<Order> orders) {
+    public Item(String name, String description, BigDecimal price) {
         this.name = name;
+        this.description = description;
         this.price = price;
-        this.orders = orders;
     }
 
     public Long getId() {
@@ -43,12 +49,36 @@ public class Item {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public List<Order> getOrders() {
