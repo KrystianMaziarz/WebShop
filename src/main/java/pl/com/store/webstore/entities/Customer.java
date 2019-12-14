@@ -28,8 +28,8 @@ public class Customer {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Order> orders;
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
     private boolean islocked;

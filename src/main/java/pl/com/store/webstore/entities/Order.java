@@ -2,8 +2,10 @@ package pl.com.store.webstore.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.NoArgsConstructor;
+import pl.com.store.webstore.entities.enums.Status;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,13 +27,40 @@ public class Order {
     private List<Item> items;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
-    @OneToOne
-    private DispatchAddress dispatchAddress;
+
+
+    private Address dispatchAddress;
+
+    private Status status;
+
+    private BigDecimal orderPrice;
+
 
     public Order(Customer customer, List<Item> items, LocalDate orderDate) {
         this.customer = customer;
         this.items = items;
         this.orderDate = orderDate;
+    }
+    public Address getDispatchAddress() {
+        return dispatchAddress;
+    }
+
+    public void setDispatchAddress(Address dispatchAddress) {
+        this.dispatchAddress = dispatchAddress;
+    }
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
+    }
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Long getId() {
