@@ -19,7 +19,7 @@ public class Order {
     private Long id;
     @ManyToOne
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    private Long customerId;
     @ManyToMany
     @JoinTable(name = "order_item",
             joinColumns = {@JoinColumn(name = "order_id")},
@@ -33,10 +33,18 @@ public class Order {
     private BigDecimal orderPrice;
 
 
-    public Order(Customer customer, List<Item> items, LocalDate orderDate) {
-        this.customer = customer;
+    public Order(Long customerId, List<Item> items, LocalDate orderDate) {
+        this.customerId = customerId;
         this.items = items;
         this.orderDate = orderDate;
+    }
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public BigDecimal getOrderPrice() {
@@ -60,14 +68,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public List<Item> getItems() {
