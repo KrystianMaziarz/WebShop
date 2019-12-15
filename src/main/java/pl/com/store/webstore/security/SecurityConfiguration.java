@@ -34,10 +34,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/register/**")
                 .permitAll()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/h2-console/**")
+                .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
                 .defaultSuccessUrl("/dashboard", true)
                 .permitAll();
+
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
     }
 }
