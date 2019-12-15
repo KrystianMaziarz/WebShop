@@ -16,7 +16,7 @@ public class Address {
     private String number;
     private String zipcode;
     @OneToOne
-    private Customer customers;
+    private Customer customer;
 
     public Address(String city, String street, String number, String zipcode) {
         this.city = city;
@@ -25,12 +25,12 @@ public class Address {
         this.zipcode = zipcode;
     }
 
-    public Customer getCustomers() {
-        return customers;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomers(Customer customers) {
-        this.customers = customers;
+    public void setCustomer(Customer customers) {
+        this.customer = customers;
     }
 
     public Long getId() {

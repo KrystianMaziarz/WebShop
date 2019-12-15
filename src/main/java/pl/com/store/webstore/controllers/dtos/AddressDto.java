@@ -6,6 +6,16 @@ public class AddressDto {
     private String street;
     private String number;
     private String zipcode;
+    private Long customerId;
+
+    public Long getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
+    }
+
 
     public String getCity() {
         return city;
