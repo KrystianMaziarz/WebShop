@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.services.CustomerService;
 
+import javax.validation.Valid;
+
 
 @Controller
 public class RegisterController {
@@ -25,14 +27,14 @@ public class RegisterController {
 
        CustomerDto customerDto = new CustomerDto();
        model.addAttribute("customer", customerDto);
-       return "register";
+       return "/register";
    }
 
    @PostMapping("/register")
-    public String registeruser (@ModelAttribute("customer") CustomerDto customerDto , BindingResult bindingResult) {
+    public String registerCustomer (@Valid @ModelAttribute("customer") CustomerDto customerDto , BindingResult bindingResult) {
 
        if (bindingResult.hasErrors()) {
-           return "register";
+           return "/register";
    }
        customerService.addCustomer(customerDto);
        return "redirect:/login";

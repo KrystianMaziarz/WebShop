@@ -115,7 +115,7 @@ public class Customer {
         this.authorities = authorities;
     }
 
-    public boolean isIslocked() {
+    public boolean getIslocked() {
         return islocked;
     }
 
@@ -123,11 +123,11 @@ public class Customer {
         this.islocked = islocked;
     }
 
-    public boolean isEnabled() {
+    public boolean getIsEnabled() {
         return isEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setIsEnabled(boolean enabled) {
         isEnabled = enabled;
     }
 

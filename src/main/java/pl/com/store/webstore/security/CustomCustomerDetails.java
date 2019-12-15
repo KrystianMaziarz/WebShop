@@ -29,7 +29,7 @@ public class CustomCustomerDetails extends Customer implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        if (isIslocked()){
+        if (getIslocked()){
             return false;
         }
         return true;
@@ -42,7 +42,7 @@ public class CustomCustomerDetails extends Customer implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        if (isEnabled()){
+        if (getIsEnabled()){
             return true;
         }
         return false;

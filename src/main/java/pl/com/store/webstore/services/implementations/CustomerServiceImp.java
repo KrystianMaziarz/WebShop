@@ -25,7 +25,7 @@ public class CustomerServiceImp implements CustomerService {
     public Long addCustomer(CustomerDto customerDto) {
             Customer customer=new Customer();
             customer.setEmail(customerDto.getEmail());
-            customer.setEnabled(true);
+            customer.setIsEnabled(true);
             customer.setPasswordExpirationDate(LocalDate.now().plusMonths(3));
             customer.setPassword(new BCryptPasswordEncoder().encode(customerDto.getPassword()));
             customer.setIslocked(false);

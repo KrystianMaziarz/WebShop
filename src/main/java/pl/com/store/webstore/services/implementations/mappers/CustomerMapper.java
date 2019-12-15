@@ -21,9 +21,9 @@ public class CustomerMapper {
         customerDetails.setId(customer.getId());
         customerDetails.setOrders(customer.getOrders());
         customerDetails.setAccountExpirationDate(customer.getAccountExpirationDate());
-        customerDetails.setIslocked(customer.isIslocked());
+        customerDetails.setIslocked(customer.getIslocked());
         customerDetails.setPasswordExpirationDate(customer.getPasswordExpirationDate());
-        customerDetails.setEnabled(customer.isEnabled());
+        customerDetails.setIsEnabled(customer.getIsEnabled());
         return customerDetails;
     }
 
