@@ -28,9 +28,6 @@ public class Order {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
 
-
-    private Address dispatchAddress;
-
     private Status status;
 
     private BigDecimal orderPrice;
@@ -41,13 +38,7 @@ public class Order {
         this.items = items;
         this.orderDate = orderDate;
     }
-    public Address getDispatchAddress() {
-        return dispatchAddress;
-    }
 
-    public void setDispatchAddress(Address dispatchAddress) {
-        this.dispatchAddress = dispatchAddress;
-    }
     public BigDecimal getOrderPrice() {
         return orderPrice;
     }

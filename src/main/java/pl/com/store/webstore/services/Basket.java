@@ -1,4 +1,4 @@
-package pl.com.store.webstore;
+package pl.com.store.webstore.services;
 
 
 import pl.com.store.webstore.entities.Order;
