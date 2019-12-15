@@ -1,4 +1,4 @@
-package pl.com.sda.tools.security;
+package pl.com.store.webstore.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;

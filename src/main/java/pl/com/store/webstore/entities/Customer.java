@@ -26,10 +26,10 @@ public class Customer {
     @OneToOne
     private Address address;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
     private boolean islocked;
@@ -107,7 +107,7 @@ public class Customer {
         this.orders = orders;
     }
 
-    public Set<Authority> getAuthorities() {
+    public Set<Authority> getAuthoritySet() {
         return authorities;
     }
 

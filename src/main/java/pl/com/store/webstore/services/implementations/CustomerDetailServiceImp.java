@@ -15,6 +15,7 @@ public class CustomerDetailServiceImp implements UserDetailsService {
 
     private CustomerRepository customerRepository;
 
+
     public CustomerDetailServiceImp(CustomerRepository customerRepository) {
         this.customerRepository=customerRepository;
     }

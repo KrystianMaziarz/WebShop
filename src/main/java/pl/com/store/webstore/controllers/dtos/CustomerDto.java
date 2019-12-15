@@ -1,7 +1,9 @@
 package pl.com.store.webstore.controllers.dtos;
 
+import lombok.NoArgsConstructor;
 import pl.com.store.webstore.entities.Address;
 
+@NoArgsConstructor
 public class CustomerDto {
 
     private String password;
