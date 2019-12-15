@@ -1,20 +1,32 @@
 package pl.com.store.webstore.controllers.dtos;
 
 
-import pl.com.store.webstore.entities.Item;
-
-import java.util.List;
+import java.math.BigDecimal;
 
 public class OrderDto {
 
     private Long customerId;
 
-    private List<Item> itemList;
+    private String orderDate;
 
-    private String createDate;
+    private BigDecimal orderPrice;
 
-//    private DispatchAddress dispatchAddress;
 
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
+    }
 
     public Long getCustomerId() {
         return customerId;
@@ -24,27 +36,14 @@ public class OrderDto {
         this.customerId = customerId;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
-    }
 
     public String getCreateDate() {
-        return createDate;
+        return orderDate;
     }
 
     public void setCreateDate(String createDate) {
-        this.createDate = createDate;
+        this.orderDate = createDate;
     }
 
-  /*  public DispatchAddress getDispatchAddress() {
-        return dispatchAddress;
-    }
 
-    public void setDispatchAddress(DispatchAddress dispatchAddress) {
-        this.dispatchAddress = dispatchAddress;
-    }*/
 }
