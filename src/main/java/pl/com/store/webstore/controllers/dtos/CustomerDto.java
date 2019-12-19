@@ -1,10 +1,12 @@
 package pl.com.store.webstore.controllers.dtos;
 
-import lombok.NoArgsConstructor;
 import pl.com.store.webstore.entities.Address;
 
-@NoArgsConstructor
-public class CustomerDto {
+import java.io.Serializable;
+
+public class CustomerDto implements Serializable {
+    private Long id;
+
 
     private String password;
 
@@ -16,12 +18,8 @@ public class CustomerDto {
 
     private String email;
 
-    public CustomerDto(String password, String firstname, String lastname, Address address, String email) {
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-        this.email = email;
+    public Long getId() {
+        return id;
     }
 
     public Address getAddress() {

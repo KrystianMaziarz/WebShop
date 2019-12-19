@@ -27,24 +27,40 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customerDetailService)
                 .passwordEncoder(passwordEncoder);
+//                .withUser("user@gmail.com")
+//                .password(passwordEncoder.encode("Pass1!"))
+//                .roles("ROLE_ADMIN","ROLE_CUSTOMER");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/register/**")
-                .permitAll()
+                .antMatchers("/wellcome","/")
+                .anonymous()
+                .antMatchers("/wellcome/logged/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
+                .antMatchers("wellcome/admin/**").access("hasRole('ROLE_ADMIN')")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/h2-console/**")
+                .antMatchers("/register/**")
                 .permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login")
-                .defaultSuccessUrl("/dashboard", true)
+                .defaultSuccessUrl("/wellcome/logged", true)
                 .permitAll();
 
-        http.csrf().disable();
-        http.headers().frameOptions().disable();
+//                .antMatchers("/wellcome","/").anonymous()
+//                .antMatchers("/wellcome/logged").access("hasRole('ROLE_USER')or hasRole('ROLE_ADMIN')")
+//                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
+//                .and()
+//                .formLogin().loginPage("/login")
+//                .defaultSuccessUrl("/wellcome/logged",true)
+//                .failureUrl("/loginPage?error")
+//                .usernameParameter("email").passwordParameter("password")
+//                .and()
+//                .logout().logoutSuccessUrl("/loginPage?logout");
+
+//        http.csrf().disable();
+//        http.headers().frameOptions().disable();
     }
 }

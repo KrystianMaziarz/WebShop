@@ -1,13 +1,14 @@
 package pl.com.store.webstore.services;
 
 import pl.com.store.webstore.controllers.dtos.AddressDto;
+import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
 
 import java.util.List;
 
 public interface AddressService {
 
-    Long addAddress(AddressDto addressDto);
+    Long addAddress(AddressDto addressDto, CustomerDto customerDto);
 
     List<Address> findAll();
 

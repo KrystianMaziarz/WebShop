@@ -5,7 +5,7 @@
     <title>Log in page</title>
 </head>
 <body>
-<form action="" method="post">
+<form  method="post">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <fieldset>
         <legend>Please Login</legend>
@@ -16,7 +16,7 @@
                 Reason: <span value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>
             </div>
         </div>
-         the configured LogoutConfigurer#logoutSuccessUrl is /login?logout and contains the query param logout
+<!--         the configured LogoutConfigurer#logoutSuccessUrl is /login?logout and contains the query param logout-->
         <div th:if="${param.logout != null}">
             You have been logged out.
         </div>

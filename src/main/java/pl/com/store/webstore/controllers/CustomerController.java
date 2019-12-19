@@ -1,16 +1,23 @@
 package pl.com.store.webstore.controllers;
 
+import com.google.common.collect.Maps;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.services.implementations.CustomerServiceImp;
 import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "customers")
+@RequestMapping(value = "/customers")
 public class CustomerController {
 
     private CustomerServiceImp service;
@@ -24,7 +31,8 @@ public class CustomerController {
         return service.addCustomer(customerDto);
     }
 
-    @GetMapping
+
+    @GetMapping("/all")
     public ResponseEntity<List<CustomerDto>> findAll() {
         return ResponseEntity.ok(service.findAll().stream()
                 .map(CustomerMapper::mapToDto)
@@ -32,8 +40,12 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDto> findById(@PathVariable Long id) throws Exception {
-        return ResponseEntity.ok(CustomerMapper.mapToDto(service.findById(id)));
+    public RedirectView findById(@RequestParam Long id, RedirectAttributes redirAtt) throws Exception {
+        CustomerDto customerDto = CustomerMapper.mapToDto(service.findById(id));
+        RedirectView redirectView= new RedirectView("/wellcome/admin/setcustomer",true);
+        redirAtt.addFlashAttribute("customer",customerDto);
+
+        return redirectView;
     }
 
     @PutMapping("/{id}")

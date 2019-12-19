@@ -1,9 +1,13 @@
 package pl.com.store.webstore.controllers.dtos;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-public class OrderDto {
+public class OrderDto implements Serializable {
+
+    private Long id;
+
 
     private Long customerId;
 
@@ -13,10 +17,12 @@ public class OrderDto {
 
     private List<Long> itemsIds;
 
+    public Long getId() {
+        return id;
+    }
     public List<Long> getItemsIds() {
         return itemsIds;
     }
-
     public void setItemsIds(List<Long> itemsIds) {
         this.itemsIds = itemsIds;
     }

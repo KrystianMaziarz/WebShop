@@ -6,6 +6,8 @@ import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.services.implementations.ItemServiceImp;
 import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,8 +23,9 @@ public class ItemController {
 
 
     @PostMapping
-    public Long addItem (@RequestBody ItemDto itemDto) {
-        return service.addItem (itemDto);
+    public void addItem (HttpServletResponse response,ItemDto itemDto) throws IOException {
+         service.addItem (itemDto);
+         response.sendRedirect("wellcome/admin");
     }
 
     @GetMapping

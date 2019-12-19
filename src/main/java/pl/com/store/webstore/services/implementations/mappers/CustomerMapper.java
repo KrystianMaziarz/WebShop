@@ -1,9 +1,12 @@
 package pl.com.store.webstore.services.implementations.mappers;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.security.CustomCustomerDetails;
+
+import java.time.LocalDate;
 
 public class CustomerMapper {
 
@@ -30,9 +33,25 @@ public class CustomerMapper {
     public static CustomerDto mapToDto(Customer customer){
         CustomerDto customerDto=new CustomerDto();
         customerDto.setFirstname(customer.getFirstname());
+        customerDto.setLastname(customer.getLastname());
         customerDto.setEmail(customer.getEmail());
+        customerDto.setAddress(customer.getAddress());
         customerDto.setPassword(customer.getPassword());
 
         return customerDto;
+    }
+
+    public static Customer mapToCustomer(CustomerDto customerDto){
+        Customer customer=new Customer();
+        customer.setEmail(customerDto.getEmail());
+        customer.setIsEnabled(true);
+        customer.setPasswordExpirationDate(LocalDate.now().plusMonths(3));
+        customer.setPassword(new BCryptPasswordEncoder().encode(customerDto.getPassword()));
+        customer.setIslocked(false);
+        customer.setAccountExpirationDate(LocalDate.now().plusMonths(6));
+        customer.setFirstname(customerDto.getFirstname());
+        customer.setLastname(customerDto.getLastname());
+
+        return customer;
     }
 }

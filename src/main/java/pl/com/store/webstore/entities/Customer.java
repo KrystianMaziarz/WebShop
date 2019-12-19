@@ -43,13 +43,6 @@ public class Customer {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate passwordExpirationDate;
 
-    public Customer(String email, String password, String firstname, String lastname, Address address) {
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
-    }
 
     public Long getId() {
         return id;

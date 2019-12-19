@@ -1,17 +1,22 @@
 package pl.com.store.webstore.controllers.dtos;
 
-public class AddressDto {
+import java.io.Serializable;
 
+public class AddressDto implements Serializable {
+
+    private Long id;
     private String city;
     private String street;
     private String number;
     private String zipcode;
     private Long customerId;
 
+    public Long getId() {
+        return id;
+    }
     public Long getCustomerId() {
         return customerId;
     }
-
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }

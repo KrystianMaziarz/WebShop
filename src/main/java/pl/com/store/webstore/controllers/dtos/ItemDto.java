@@ -2,9 +2,12 @@ package pl.com.store.webstore.controllers.dtos;
 
 import pl.com.store.webstore.entities.Category;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ItemDto {
+public class ItemDto implements Serializable {
+
+    private Long id;
 
     private String name;
 
@@ -16,7 +19,9 @@ public class ItemDto {
 
     private String photoUrl;
 
-
+    public Long getId() {
+        return id;
+    }
     public Category getCategory() {
         return category;
     }
