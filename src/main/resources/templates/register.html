@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
+      xmlns:th="http://thymeleaf.org">
 <head>
     <title>Log in</title>
 </head>
@@ -20,11 +20,39 @@
             <input type="password" id="password" name="password"/>
             <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email Error</span>
         </p>
+        <p>
+            <label for="firstname">Imię</label>
+            <input type="text" id="firstname" name="firstname"/>
+        </p>
+        <p>
+            <label for="lastname">Nazwisko</label>
+            <input type="text" id="lastname" name="lastname"/>
+        </p>
+<form action="/register" method="post" th:object="${address}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <fieldset>
+        <p>
+            <label for="city">Miasto</label>
+            <input type="text" id="city" name="city"/>
+        </p>
+        <p>
+            <label for="street">Ulica</label>
+            <input type="text" id="street" name="street"/>
+        </p> <p>
+            <label for="number">Nr domu/mieszkania</label>
+            <input type="text" id="number" name="number"/>
+        </p> <p>
+            <label for="zipcode">kod pocztowy</label>
+            <input type="text" id="zipcode" name="zipcode"/>
+        </p>
         <br/>
         <div>
             <button type="submit" class="btn">Register</button>
         </div>
+        </fieldset>
+    </form>
     </fieldset>
 </form>
+
 </body>
 </html>

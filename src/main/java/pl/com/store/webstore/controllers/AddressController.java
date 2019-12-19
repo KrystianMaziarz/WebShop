@@ -3,6 +3,7 @@ package pl.com.store.webstore.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.com.store.webstore.controllers.dtos.AddressDto;
+import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.services.AddressService;
 import pl.com.store.webstore.services.implementations.AddressServiceImp;
 import pl.com.store.webstore.services.implementations.mappers.AddressMapper;
@@ -21,8 +22,8 @@ public class AddressController {
     }
 
     @PostMapping
-    public Long addAddress(@RequestBody AddressDto addressDto) {
-        return service.addAddress(addressDto);
+    public Long addAddress(@RequestBody AddressDto addressDto, @RequestBody CustomerDto customerDto) {
+        return service.addAddress(addressDto,customerDto);
     }
 
     @GetMapping

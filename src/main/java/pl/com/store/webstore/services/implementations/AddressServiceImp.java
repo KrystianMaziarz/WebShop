@@ -1,13 +1,17 @@
 package pl.com.store.webstore.services.implementations;
 
+import com.google.common.collect.Sets;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import pl.com.store.webstore.controllers.dtos.AddressDto;
+import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
+import pl.com.store.webstore.entities.Authority;
 import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.repositories.AddressRepository;
 import pl.com.store.webstore.repositories.CustomerRepository;
 import pl.com.store.webstore.services.AddressService;
+import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -25,16 +29,21 @@ public class AddressServiceImp implements AddressService {
 
     @Override
     @Transactional
-    public Long addAddress(AddressDto addressDto) {
-        Customer customer = customerRepository.getOne(addressDto.getCustomerId());
+    public Long addAddress(AddressDto addressDto, CustomerDto customerDto) {
+        Customer customer = CustomerMapper.mapToCustomer(customerDto);
+        Authority authority=new Authority();
+        authority.setAuthority("ROLE_CUSTOMER");
+
+        customer.setAuthorities(Sets.newHashSet(authority));
         Address address = new Address();
         address.setCity(addressDto.getCity());
         address.setStreet(addressDto.getStreet());
         address.setNumber(addressDto.getNumber());
         address.setZipcode(addressDto.getZipcode());
-        address.setCustomer(customer);
+        Customer persistedCustomer = customerRepository.save(customer);
+        address.setCustomer(persistedCustomer);
         customer.setAddress(address);
-        customerRepository.save(customer);
+        authority.setCustomer(customer);
         Address persisted = repository.save(address);
         return persisted.getId();
     }

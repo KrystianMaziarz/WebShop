@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" >
+    <title>customers</title>
+</head>
+<body>
+
+
+    <form action="/customers/${id}" method="get" th:object="${customer}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <fieldset>
+        <legend>get customer data</legend>
+            <p>
+                <label for="id">Nr id</label>
+                <input type="number" id="id" name="id"/>
+            </p>
+            <p>albo</p>
+            <p>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email"/>
+<!--                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>-->
+            </p>
+            <div >
+                <button type="submit" class="btn">Pobierz</button>
+            </div>
+
+        </fieldset>
+    </form>
+    <br>
+
+    <tr th:if="${customer}">
+        <td th:text="${customer.firstname}"/>
+        <td th:text="${customer.lastname}"/>
+        <td th:text="${customer.email}"/>
+    </tr>
+
+    <br>
+    <div th:if="${customer}">
+        <form action="/customers" method="post" th:object="${updatedcustomer}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <fieldset>
+            <legend>update customer data</legend>
+        <p>
+            <label for="updatedemail">Email</label>
+            <input type="email" id="updatedemail" name="updatedemail" th:placeholder= "${customer.email}" />
+<!--            <span th:if="${#fields.hasErrors('updatedemail')}" th:errors="*{updatedemail}"></span>-->
+        </p>
+        <p>
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" th:placeholder= "${customer.password}" />
+<!--            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Email Error</span>-->
+        </p>
+        <p>
+            <label for="firstname">Imię</label>
+            <input type="text" id="firstname" name="firstname" th:placeholder= "${customer.firstname}" />
+        </p>
+        <p>
+            <label for="lastname">Nazwisko</label>
+            <input type="text" id="lastname" name="lastname" th:placeholder= "${customer.lastname}"/>
+        </p>
+        <form action="/register" method="post" th:object="${address}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <fieldset>
+                <p>
+                    <label for="city">Miasto</label>
+                    <input type="text" id="city" name="city" th:placeholder= "${customer.address.city}"/>
+                </p>
+                <p>
+                    <label for="street">Ulica</label>
+                    <input type="text" id="street" name="street"th:placeholder= "${customer.address.street}"/>
+                </p> <p>
+                <label for="number">Nr domu/mieszkania</label>
+                <input type="text" id="number" name="number"th:placeholder= "${customer.address.number}"/>
+            </p> <p>
+                <label for="zipcode">kod pocztowy</label>
+                <input type="text" id="zipcode" name="zipcode"th:placeholder= "${customer.address.zipcode}"/>
+            </p>
+                <br/>
+                <div>
+                    <button type="submit" class="btn">Register</button>
+                </div>
+            </fieldset>
+        </form>
+        </fieldset>
+        </form>
+    </div>
+</body>
+</html>

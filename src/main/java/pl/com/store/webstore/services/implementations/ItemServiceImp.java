@@ -19,6 +19,7 @@ public class ItemServiceImp implements ItemService {
 
     @Transactional
     @Override
+    @Secured("ROLE_ADMIN")
     public Long addItem(ItemDto itemDto) {
         Item item = new Item();
         item.setCategory(itemDto.getCategory());

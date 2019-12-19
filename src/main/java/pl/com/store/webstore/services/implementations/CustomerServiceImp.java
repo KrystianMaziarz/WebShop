@@ -8,6 +8,7 @@ import pl.com.store.webstore.entities.Authority;
 import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.repositories.CustomerRepository;
 import pl.com.store.webstore.services.CustomerService;
+import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -23,16 +24,8 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public Long addCustomer(CustomerDto customerDto) {
-            Customer customer=new Customer();
-            customer.setEmail(customerDto.getEmail());
-            customer.setIsEnabled(true);
-            customer.setPasswordExpirationDate(LocalDate.now().plusMonths(3));
-            customer.setPassword(new BCryptPasswordEncoder().encode(customerDto.getPassword()));
-            customer.setIslocked(false);
-            customer.setAccountExpirationDate(LocalDate.now().plusMonths(6));
-            customer.setFirstname(customerDto.getFirstname());
-            customer.setLastname(customerDto.getLastname());
-            customer.setAddress(customerDto.getAddress());
+        Customer customer = CustomerMapper.mapToCustomer(customerDto);
+        customer.setAddress(customerDto.getAddress());
             Authority authority=new Authority();
             authority.setAuthority("ROLE_CUSTOMER");
             authority.setCustomer(customer);
@@ -48,7 +41,7 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public Customer findById(Long id) throws Exception {
-        return null;
+        return repository.getOne(id);
     }
 
     @Override

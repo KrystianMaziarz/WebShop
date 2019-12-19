@@ -2,6 +2,8 @@ package pl.com.store.webstore.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import pl.com.store.webstore.entities.Customer;
 
 import java.time.LocalDate;
