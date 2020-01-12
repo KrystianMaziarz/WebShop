@@ -31,8 +31,7 @@ public class WebstoreApplication implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
         Customer customer=new Customer();
-        Authority admin=new Authority();
-        admin.setAuthority("ROLE_ADMIN");
+        Authority admin=new Authority();        admin.setAuthority("ROLE_ADMIN");
         admin.setCustomer(customer);
         Address address=new Address();
         address.setCity("Lublin");

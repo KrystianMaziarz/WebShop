@@ -1,4 +1,13 @@
 <!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            background-color: lightpink;
+        }
+    </style>
+</head>
+</html>
 <html lang="pl" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -19,8 +28,10 @@
         </div>
 <div style="clear: both"></div>
         <br>
-Strona powitalna wyświetlająca itemy i pozwalająca na zalogowanie się!!
-<br>
+
+        <span style="font-family:'Comic Sans MS'">U nas znajdziesz najlepszej jakości produkty, spełniające wymagania nawet najbardziej wymagających klientów. Sprawdź poniższe produkty oraz zaloguj się, by być na bieżąco! </span>
+        <img th:src="@{/img/rodzina.png}" alt="shop logo" width="550px" height="640px"/>
+        <br>
 
 <tr th:each="item: ${items}">
     <td th:text="${item.id}"/>
