@@ -1,13 +1,17 @@
 package pl.com.store.webstore.controllers.dtos;
 
 import pl.com.store.webstore.entities.Address;
+import pl.com.store.webstore.services.validators.EmailValidator;
+import pl.com.store.webstore.services.validators.PasswordStrengthValidator;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 public class CustomerDto implements Serializable {
 
     private Long id;
-
+    @PasswordStrengthValidator
     private String password;
 
     private String firstname;
@@ -16,6 +20,7 @@ public class CustomerDto implements Serializable {
 
     private Address address;
 
+    @EmailValidator
     private String email;
 
     public Long getId() {

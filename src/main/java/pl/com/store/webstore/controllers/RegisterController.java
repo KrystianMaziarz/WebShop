@@ -32,16 +32,16 @@ public class RegisterController {
 
        CustomerDto customerDto = new CustomerDto();
        model.addAttribute("customer", customerDto);
-       return "/register";
+       return "register";
    }
 
-   @PostMapping("/register")
-    public String registerCustomer (@Valid @ModelAttribute("customer") CustomerDto customerDto , @ModelAttribute("address") AddressDto addressDto, BindingResult bindingResult) {
+   @PostMapping("/register2")
+    public String registerCustomer (@Valid @ModelAttribute("customer") CustomerDto customerDto ,  BindingResult bindingResult,@ModelAttribute("address") AddressDto addressDto) {
 
        if (bindingResult.hasErrors()) {
-           return "/register";
+           return "register";
    }
-       addressService.addAddress(addressDto,customerDto);
+       addressService.addAddress(null,customerDto);
        return "redirect:/login";
    }
 
