@@ -1,8 +1,11 @@
 package pl.com.store.webstore.services.implementations;
 
 import com.google.common.collect.Sets;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Authority;
 import pl.com.store.webstore.entities.Customer;
@@ -26,17 +29,17 @@ public class CustomerServiceImp implements CustomerService {
     public Long addCustomer(CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapToCustomer(customerDto);
         customer.setAddress(customerDto.getAddress());
-            Authority authority=new Authority();
-            authority.setAuthority("ROLE_CUSTOMER");
-            authority.setCustomer(customer);
-            customer.setAuthorities(Sets.newHashSet(authority));
-            Customer persistedCustomer = repository.save(customer);
-            return persistedCustomer.getId();
+        Authority authority = new Authority();
+        authority.setAuthority("ROLE_CUSTOMER");
+        authority.setCustomer(customer);
+        customer.setAuthorities(Sets.newHashSet(authority));
+        Customer persistedCustomer = repository.save(customer);
+        return persistedCustomer.getId();
     }
 
     @Override
     public List<Customer> findAll() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
@@ -45,12 +48,32 @@ public class CustomerServiceImp implements CustomerService {
     }
 
     @Override
-    public Customer updateCustomer(Long id, CustomerDto customerDto) throws Exception {
-        return null;
+    public Customer findByEmail(String email) {
+        return repository.findByEmail(email);
+    }
+
+    @Override
+    @Transactional
+    @Secured("ROLE_ADMIN")
+    public Customer updateCustomer(CustomerDto customerDto, AddressDto addressDto) throws Exception {
+        Customer customer = repository.getOne(customerDto.getId());
+
+        customer.setEmail(customerDto.getEmail());
+        customer.setPassword(customerDto.getPassword());
+        customer.setFirstname(customerDto.getFirstname());
+        customer.setLastname(customerDto.getLastname());
+
+        customer.getAddress().setCity(addressDto.getCity());
+        customer.getAddress().setStreet(addressDto.getStreet());
+        customer.getAddress().setNumber(addressDto.getNumber());
+        customer.getAddress().setZipcode(addressDto.getZipcode());
+
+        return customer;
     }
 
     @Override
     public void deleteById(Long id) throws Exception {
-
+        repository.deleteById(id);
     }
+
 }

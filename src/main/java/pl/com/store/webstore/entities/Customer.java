@@ -23,7 +23,7 @@ public class Customer {
     private String firstname;
 
     private String lastname;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Address address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true)
