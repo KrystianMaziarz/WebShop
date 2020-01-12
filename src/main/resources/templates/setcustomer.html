@@ -53,11 +53,20 @@
             </p>
                 <br/>
                 <div>
-                    <button type="submit" class="btn">Register</button>
+                    <button type="submit" class="btn">Zatwierdź zmiany</button>
                 </div>
             </fieldset>
         </form>
     </fieldset>
+</form>
+<form action="/customers/del" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <fieldset>
+            <input type="number" id="deletedId" name="deletedId" th:value= "${customer.id}" />
+            <div>
+                <button type="submit" class="btn" style="color: #ac2925">Usuń</button>
+            </div>
+        </fieldset>
 </form>
 </body>
 </html>

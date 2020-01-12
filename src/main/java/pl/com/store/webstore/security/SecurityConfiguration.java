@@ -35,10 +35,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/wellcome","/")
+                .antMatchers("/wellcome", "/")
                 .anonymous()
                 .antMatchers("/wellcome/logged/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .antMatchers("wellcome/admin/**").access("hasRole('ROLE_ADMIN')")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/setcustomer/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/findcustomer/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/customers/**").access("hasRole('ROLE_ADMIN')")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/register/**")
@@ -47,7 +52,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin().loginPage("/login")
                 .defaultSuccessUrl("/wellcome/logged", true)
-                .permitAll();
+                .permitAll()
+                .and()
+                .logout().logoutSuccessUrl("/wellcome");
 
 //                .antMatchers("/wellcome","/").anonymous()
 //                .antMatchers("/wellcome/logged").access("hasRole('ROLE_USER')or hasRole('ROLE_ADMIN')")

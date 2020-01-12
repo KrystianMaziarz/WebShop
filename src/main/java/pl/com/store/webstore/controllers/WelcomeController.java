@@ -7,12 +7,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.services.ItemService;
 import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,10 +59,18 @@ public class WelcomeController {
     public String addItemPanel() {
         return "additem";
     }
-    @GetMapping({"/wellcome/admin/setcustomer"})
-    public String setCustomerPanel(Model model) {
-//        CustomerDto customerDto=new CustomerDto();
-//        model.addAttribute("customer",customerDto);
+
+    @GetMapping({"/wellcome/admin/findcustomer"})
+    public String findCustomerPanel(HttpServletRequest httpServletRequest, Model model) {
+       List customers =(List)httpServletRequest.getSession().getAttribute("customers");
+        model.addAttribute("customers",customers);
+        return "/findcustomer";
+    }
+
+    @GetMapping({"/setcustomer"})
+    public String setCustomerPanel(HttpServletRequest httpServletRequest, Model model) {
+        CustomerDto user = (CustomerDto) httpServletRequest.getSession().getAttribute("customer");
+        model.addAttribute("customer", user);
         return "/setcustomer";
     }
 

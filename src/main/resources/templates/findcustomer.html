@@ -37,20 +37,26 @@
         </fieldset>
     </form>
     <br>
-    <form action="/customers/all" method="get" th:object="${customers}"></form>
+    <p>albo </p>
+    <br>
+    <form action="/customers/all" method="get" th:object="${customers}">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 <fieldset>
     <legend> wyświetl wszystkich klientów</legend>
     <div >
         <button type="submit" class="btn">Pobierz</button>
+
+
     </div>
 </fieldset>
-
-    <tr th:each="custom: ${customers}">
-    <td th:text="${custom.id}"/>
-    <td th:text="${custom.firstname}"/>
-    <td th:text="${custom.lastname}"/>
-    <td th:text="${custom.email}"/>
-
+    </form>
+    <br>
+    <tr  th:each="customer : ${customers}">
+        <td th:text="${customer.id}"/>
+        <td th:text="${customer.firstname}"/>
+        <td th:text="${customer.lastname}"/>
+        <td th:text="${customer.email}"/>
+    </tr>
+    <br>
 </body>
 </html>
