@@ -1,18 +1,14 @@
 package pl.com.store.webstore.controllers;
 
-import com.google.common.collect.Maps;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
+import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.services.implementations.CustomerServiceImp;
 import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,29 +29,64 @@ public class CustomerController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<CustomerDto>> findAll() {
-        return ResponseEntity.ok(service.findAll().stream()
+    public void findAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+        List<CustomerDto> customers = service.findAll().stream()
                 .map(CustomerMapper::mapToDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+        String url = "/wellcome/admin/findcustomer";
+        httpServletRequest.getSession().setAttribute("customers", customers);
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
     }
 
-    @GetMapping("/{id}")
-    public RedirectView findById(@RequestParam Long id, RedirectAttributes redirAtt) throws Exception {
+    @GetMapping
+    public void findById(@RequestParam Long id, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         CustomerDto customerDto = CustomerMapper.mapToDto(service.findById(id));
-        RedirectView redirectView= new RedirectView("/wellcome/admin/setcustomer",true);
-        redirAtt.addFlashAttribute("customer",customerDto);
 
-        return redirectView;
+        String url = "/setcustomer";
+        httpServletRequest.getSession().setAttribute("customer", customerDto);
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CustomerDto> updateCustomer(@PathVariable Long id, @RequestBody CustomerDto customerDto) throws Exception {
-        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(id, customerDto)));
+    @GetMapping("/email")
+    public void findByEmail(@RequestParam String email, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        CustomerDto customerDto = CustomerMapper.mapToDto(service.findByEmail(email));
+
+        String url = "/setcustomer";
+        httpServletRequest.getSession().setAttribute("customer", customerDto);
+        httpServletResponse.setHeader("Location", url);
+        httpServletResponse.setStatus(302);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable Long id) throws Exception {
-        service.deleteById(id);
+
+//    @PostMapping(value = "/{id}")
+//    public ResponseEntity<CustomerDto> updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("address") AddressDto addressDto) throws Exception {
+//        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
+//    }
+
+//    @PostMapping(value = "/{id}")
+//    public ResponseEntity<CustomerDto> updateCustomer(HttpServletRequest httpServletRequest) throws Exception {
+//        CustomerDto user =(CustomerDto) httpServletRequest.getAttribute("user");
+//        //return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
+//        return null;
+//    }
+
+    @PostMapping("/update")
+    public ResponseEntity<CustomerDto> getCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto) throws Exception {
+
+        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
+
+    }
+
+    @PostMapping("/del")
+    public ResponseEntity<String> doDelete(@RequestParam Long deletedId) throws Exception {
+        deleteCustomer(deletedId);
         return ResponseEntity.ok("Deleted !");
+    }
+
+    @DeleteMapping
+    public void deleteCustomer(Long deletedId) throws Exception {
+        service.deleteById(deletedId);
     }
 }

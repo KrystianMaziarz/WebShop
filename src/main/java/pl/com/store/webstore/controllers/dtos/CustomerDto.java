@@ -5,8 +5,8 @@ import pl.com.store.webstore.entities.Address;
 import java.io.Serializable;
 
 public class CustomerDto implements Serializable {
-    private Long id;
 
+    private Long id;
 
     private String password;
 
@@ -20,6 +20,9 @@ public class CustomerDto implements Serializable {
 
     public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Address getAddress() {
