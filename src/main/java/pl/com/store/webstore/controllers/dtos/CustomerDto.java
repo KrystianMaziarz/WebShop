@@ -7,6 +7,7 @@ import pl.com.store.webstore.services.validators.PasswordStrengthValidator;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import java.io.Serializable;
+import java.util.Objects;
 
 public class CustomerDto implements Serializable {
 
@@ -68,5 +69,22 @@ public class CustomerDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof CustomerDto)) return false;
+        CustomerDto that = (CustomerDto) o;
+        return Objects.equals(getPassword(), that.getPassword()) &&
+                Objects.equals(getFirstname(), that.getFirstname()) &&
+                Objects.equals(getLastname(), that.getLastname()) &&
+                Objects.equals(getAddress(), that.getAddress()) &&
+                Objects.equals(getEmail(), that.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getPassword(), getFirstname(), getLastname(), getAddress(), getEmail());
     }
 }

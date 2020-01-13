@@ -75,8 +75,7 @@ public class ItemServiceImp implements ItemService {
         if (id == null) {
             throw new Exception("item not found");
         }
-        Item item = respository.getOne(id);
-        respository.delete(item);
+        respository.deleteById(id);
         return "Deleted";
     }
 

@@ -4,6 +4,7 @@ import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.entities.Item;
 
 public class ItemMapper {
+
     public static ItemDto mapToDto (Item item) {
         ItemDto itemDto = new ItemDto();
 

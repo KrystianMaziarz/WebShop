@@ -86,6 +86,7 @@ public class CustomerServiceImpTest {
         Address address = new Address();
         customer.setAddress(address);
         Mockito.when(repository.getOne(Mockito.any())).thenReturn(customer);
+
         CustomerDto customerDto = new CustomerDto();
         customerDto.setEmail("customer@wp.pl");
         customerDto.setPassword("Pass1!");

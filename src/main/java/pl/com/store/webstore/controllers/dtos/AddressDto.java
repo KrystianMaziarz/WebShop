@@ -1,6 +1,7 @@
 package pl.com.store.webstore.controllers.dtos;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class AddressDto implements Serializable {
 
@@ -52,5 +53,22 @@ public class AddressDto implements Serializable {
 
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AddressDto)) return false;
+        AddressDto that = (AddressDto) o;
+        return Objects.equals(getCity(), that.getCity()) &&
+                Objects.equals(getStreet(), that.getStreet()) &&
+                Objects.equals(getNumber(), that.getNumber()) &&
+                Objects.equals(getZipcode(), that.getZipcode()) &&
+                Objects.equals(getCustomerId(), that.getCustomerId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCity(), getStreet(), getNumber(), getZipcode(), getCustomerId());
     }
 }
