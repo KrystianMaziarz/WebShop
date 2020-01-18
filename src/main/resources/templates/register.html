@@ -1,6 +1,66 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: lightpink;
+        }
+        * {
+            font-family: "Comic Sans MS";
+        }
+        {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Add padding to containers */
+        .container {
+            padding: 10px;
+            background-color: yellow;
+        }
+        /* Full-width input fields */
+        input[type=text], input[type=password] {
+            width: 50%;
+            padding: 5px;
+            margin: 1px 0 5px 0;
+            display: inline-block;
+            border: none;
+            background: yellow;
+        }
+
+        input[type=text]:focus, input[type=password]:focus {
+            background-color: grey;
+            outline: none;
+        }
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+        .btn {
+            background-color: #4CAF50;
+            color: black;
+            padding: 20px 200px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 50%;
+            opacity: 0.9;
+        }
+
+        .registerbtn:hover {
+            opacity: 1;
+        }
+
+
+
+    </style>
+</head>
 <head>
     <title>Log in</title>
 </head>
@@ -8,7 +68,7 @@
 <form action="/register2" method="post" th:object="${customer}"  role="form">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <fieldset>
-        <legend>Register</legend>
+        <legend><img th:src="@{/img/registration.png}" alt="registration" width="500px" height="120px"/></legend>
 
         <p>
             <label for="email">Email</label>
