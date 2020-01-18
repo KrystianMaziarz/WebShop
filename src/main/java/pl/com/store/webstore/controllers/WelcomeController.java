@@ -95,6 +95,7 @@ public class WelcomeController {
         return "/payment";
     }
 
+
     private List<ItemDto> getItemDtos() {
         List<ItemDto> items = new ArrayList<>();
         if (!service.findAllItems().isEmpty()) {

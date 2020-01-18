@@ -1,6 +1,7 @@
 package pl.com.store.webstore.controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.entities.Customer;
@@ -32,15 +33,15 @@ public class BasketController {
         long count = (long) basket.getItems().size();
 
         String url = "/wellcome/logged";
-
         request.getSession().setAttribute("count", count);
         response.setHeader("Location", url);
         response.setStatus(302);
     }
 
     @GetMapping
-    public ResponseEntity<Basket> showBasket(@ModelAttribute("basket") Basket basket) {
+    public void showBasket(@ModelAttribute("basket") Basket basket, Model model) {
 
-        return ResponseEntity.ok(basketService.getBasket(basket.getCustomerId()));
+        Basket foundBasket = basketService.getBasket(basket.getCustomerId());
+        model.addAttribute("basketDto", foundBasket);
     }
 }

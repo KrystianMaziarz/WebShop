@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+</head>
+<body>
+<th:block th:object=" ${basketDto}"  >
+    <br>
+        <tr>
+        <td th:text="${basketDto.getCustomerId()}"/>
+        <td th:text="${basketDto.getItems()}"/>
+        </tr>Dto
+
+</th:block>
+</body>
+</html>
