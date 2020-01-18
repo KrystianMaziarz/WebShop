@@ -11,6 +11,7 @@ import pl.com.store.webstore.services.CustomerService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/basket")
@@ -39,9 +40,15 @@ public class BasketController {
     }
 
     @GetMapping
-    public void showBasket(@ModelAttribute("basket") Basket basket, Model model) {
+    public void showBasket(@ModelAttribute("basket") Basket basket, HttpServletRequest request,HttpServletResponse response) {
 
         Basket foundBasket = basketService.getBasket(basket.getCustomerId());
-        model.addAttribute("basketDto", foundBasket);
+        List<ItemDto> items = foundBasket.getItems();
+        Long customerId = foundBasket.getCustomerId();
+        String url="/baskethtml";
+        request.getSession().setAttribute("items",items);
+        request.getSession().setAttribute("customerId",customerId);
+        response.setHeader("Location",url);
+        response.setStatus(302);
     }
 }

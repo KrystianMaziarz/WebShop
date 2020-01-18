@@ -49,6 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/findcustomer/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/customers/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/items/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
+                .antMatchers("/baskethtml/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/payment/**")

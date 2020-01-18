@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<form th:action="@{/customers/update}" th:method="post" th:object="${customerDto}" >
+<form th:action="@{/customers}" th:method="post" th:object="${customerDto}" >
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <fieldset>
         <legend>zmień dane klienta</legend>

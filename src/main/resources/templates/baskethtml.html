@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Basket</title>
+</head>
+<body>
+<th:block object=" ${customer}"  t >
+    <p th:text=" 'Nr klienta:'+ ${customer}"/>
+
+</th:block>
+<th:block th:each=" item:${itemList}"  t >
+    <tr>
+
+        <td th:text="${item.getId() }"/>
+
+        <td th:text="${item.getName()}"/>
+
+        <td th:text="${item.getPrice()}"/>
+
+    </tr>
+</th:block>
+<form action=""></form>
+</body>
+</html>

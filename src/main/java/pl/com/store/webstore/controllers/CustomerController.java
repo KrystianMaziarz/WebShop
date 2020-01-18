@@ -22,10 +22,10 @@ public class CustomerController {
         this.service = service;
     }
 
-    @PostMapping
-    public Long addCustomer(@RequestBody CustomerDto customerDto) {
-        return service.addCustomer(customerDto);
-    }
+//    @PostMapping
+//    public Long addCustomer(@RequestBody CustomerDto customerDto) {
+//        return service.addCustomer(customerDto);
+//    }
 
 
     @GetMapping("/all")
@@ -72,10 +72,13 @@ public class CustomerController {
 //        return null;
 //    }
 
-    @PostMapping("/update")
-    public ResponseEntity<CustomerDto> getCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto) throws Exception {
-
-        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
+    @PostMapping
+    public void updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerDto updated = CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto));
+        String url="/update";
+        request.getSession().setAttribute("customer",updated);
+        response.setHeader("Location", url);
+        response.setStatus(302);
 
     }
 
