@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,13 +24,13 @@ public class Customer {
     private String firstname;
 
     private String lastname;
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     private Address address;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Order> orders;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Authority> authorities;
 
     private boolean islocked;
@@ -43,12 +44,27 @@ public class Customer {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate passwordExpirationDate;
 
-    public Customer(String email, String password, String firstname, String lastname, Address address) {
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.address = address;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+        Customer customer = (Customer) o;
+        return getIslocked() == customer.getIslocked() &&
+                isEnabled == customer.isEnabled &&
+                Objects.equals(getEmail(), customer.getEmail()) &&
+                Objects.equals(getPassword(), customer.getPassword()) &&
+                Objects.equals(getFirstname(), customer.getFirstname()) &&
+                Objects.equals(getLastname(), customer.getLastname()) &&
+                Objects.equals(getAddress(), customer.getAddress()) &&
+                Objects.equals(getOrders(), customer.getOrders()) &&
+                Objects.equals(authorities, customer.authorities) &&
+                Objects.equals(getAccountExpirationDate(), customer.getAccountExpirationDate()) &&
+                Objects.equals(getPasswordExpirationDate(), customer.getPasswordExpirationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getPassword(), getFirstname(), getLastname(), getAddress(), getOrders(), authorities, getIslocked(), isEnabled, getAccountExpirationDate(), getPasswordExpirationDate());
     }
 
     public Long getId() {
@@ -107,7 +123,7 @@ public class Customer {
         this.orders = orders;
     }
 
-    public Set<Authority> getAuthorities() {
+    public Set<Authority> getAuthoritySet() {
         return authorities;
     }
 
@@ -115,7 +131,7 @@ public class Customer {
         this.authorities = authorities;
     }
 
-    public boolean isIslocked() {
+    public boolean getIslocked() {
         return islocked;
     }
 
@@ -123,11 +139,11 @@ public class Customer {
         this.islocked = islocked;
     }
 
-    public boolean isEnabled() {
+    public boolean getIsEnabled() {
         return isEnabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    public void setIsEnabled(boolean enabled) {
         isEnabled = enabled;
     }
 

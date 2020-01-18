@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            background-color: lightpink;
+        }
+        * {
+            font-family: "Comic Sans MS";
+        }
+    </style>
+</head>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Wellcome</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+        <div  th:if="${admin}" style="display: inline-block" class="form-inline">
+        <form style="display: inline-block" class="form-inline" method="get" action="/wellcome/admin/additem">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button class="btn btn-primary mb-2" type="submit">Dodaj Przedmiot</button>
+        </form>
+
+        <form style="display: inline-block" class="form-inline" method="get" action="/wellcome/admin/findcustomer">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button class="btn btn-primary mb-2" type="submit">Ustawienia użytkownika</button>
+        </form>
+        </div >
+            <div th:if="${logged}" style="display: inline-block" class="form-inline" >
+                <form  action="/basket" th:method="get" style="display: inline-block" th:object="${basket}" >
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <input type="hidden" id="customerId" name="customerId" th:value="${customerId}" >
+                    <button class="btn" type="submit" >Przejdź do koszyka</button>
+                </form>
+                <span th:text="${count}"/>
+            </div>
+<div style="clear: both"></div>
+        <br>
+
+        <span style="font-family:'Comic Sans MS'">U nas znajdziesz najlepszej jakości produkty, spełniające wymagania nawet najbardziej wymagających klientów. Sprawdź poniższe produkty oraz zaloguj się, by być na bieżąco! </span>
+        <img th:src="@{/img/rodzina.png}" alt="shop logo" width="400px" height="465px"/>
+        <br>
+
+<th:block th:each="item, status: ${items}"  >
+    <br>
+    <tr>
+    <td th:text="${item.getId()}"/>
+    <td th:text="${item.getName()}"/>
+    <td th:text="${item.getDescription()}"/>
+    <td th:text="${item.getPrice()}"/>
+    <td th:text="${item.getCategory()}"/>
+    <td th:text="${item.getPhotoUrl()}"/>
+    <td>
+        <br>
+    <div th:if="${logged}" >
+        <form action="/basket/add" method="post" style="display: inline-block" object="${item[status.index]}" >
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input id="forGetid" name="id" th:value="${item.getId()}" type="hidden"/>
+            <input id="forGetprice" name="price" th:value="${item.getPrice()}" type="hidden"/>
+            <input id="forGetname" name="name" th:value="${item.getName()}" type="hidden"/>
+            <input id="forGetdescription" name="description" th:value="${item.getDescription()}" type="hidden"/>
+            <input id="forGetcategory" name="category"     th:value="${item.getCategory()}" type="hidden"/>
+            <input id="forGetphotoUrl" name="photoUrl" th:value="${item.getPhotoUrl()}" type="hidden"/>
+            <button class="btn" type="submit" >Dodaj do koszyka</button>
+        </form>
+
+        <form th:action="@{/items/buy}" method="post" style="display: inline-block" object="${item[status.index]}" >
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input id="id" name="id" th:value="${item.getId()}" type="hidden"/>
+            <input id="price" name="price" th:value="${item.getPrice()}" type="hidden"/>
+            <input id="name" name="name" th:value="${item.getName()}" type="hidden"/>
+            <input id="description" name="description" th:value="${item.getDescription()}" type="hidden"/>
+            <input id="category" name="category"     th:value="${item.getCategory()}" type="hidden"/>
+            <input id="photoUrl" name="photoUrl" th:value="${item.getPhotoUrl()}" type="hidden"/>
+            <button class="btn" type="submit" >Kup teraz</button>
+        </form>
+    </div>
+        <br>
+        <div style="clear: both"></div>
+    </td>
+</tr>
+</th:block>
+<br>
+<div th:if="${!logged}">
+    <form method="get" action="/login">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Zaloguj się</button>
+    </form>
+</div>
+<br>
+<div th:if="${logged}">
+    <form method="post" action="/logout">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button type="submit">Wyloguj</button>
+    </form>
+</div>
+</body>
+</html>

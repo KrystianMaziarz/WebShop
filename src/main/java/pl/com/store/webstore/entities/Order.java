@@ -18,7 +18,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "customer_id")
     private Customer customer;
     @ManyToMany
     @JoinTable(name = "order_item",
@@ -27,9 +26,6 @@ public class Order {
     private List<Item> items;
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate orderDate;
-
-
-    private Address dispatchAddress;
 
     private Status status;
 
@@ -41,16 +37,19 @@ public class Order {
         this.items = items;
         this.orderDate = orderDate;
     }
-    public Address getDispatchAddress() {
-        return dispatchAddress;
+
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setDispatchAddress(Address dispatchAddress) {
-        this.dispatchAddress = dispatchAddress;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
+
     public BigDecimal getOrderPrice() {
         return orderPrice;
     }
+
     public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
     }
@@ -69,14 +68,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public List<Item> getItems() {

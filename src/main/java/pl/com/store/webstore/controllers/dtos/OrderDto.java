@@ -1,20 +1,65 @@
 package pl.com.store.webstore.controllers.dtos;
 
+import pl.com.store.webstore.entities.enums.Status;
 
-import pl.com.store.webstore.entities.Item;
-
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
-public class OrderDto {
+public class OrderDto implements Serializable {
+
+    private Long id;
+
 
     private Long customerId;
 
-    private List<Item> itemList;
+    private LocalDate orderDate;
 
-    private String createDate;
+    private BigDecimal orderPrice;
 
-//    private DispatchAddress dispatchAddress;
+    private List<ItemDto> items;
+    private Status status;
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemDto> itemsIds) {
+        this.items = items;
+    }
+
+    public LocalDate getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDate orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
+    }
 
     public Long getCustomerId() {
         return customerId;
@@ -24,27 +69,5 @@ public class OrderDto {
         this.customerId = customerId;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
-    }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
-    }
-
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
-
-  /*  public DispatchAddress getDispatchAddress() {
-        return dispatchAddress;
-    }
-
-    public void setDispatchAddress(DispatchAddress dispatchAddress) {
-        this.dispatchAddress = dispatchAddress;
-    }*/
 }

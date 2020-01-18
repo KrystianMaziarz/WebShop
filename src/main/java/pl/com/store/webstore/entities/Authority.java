@@ -1,12 +1,14 @@
 package pl.com.store.webstore.entities;
 
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
-public class Authority {
+public class Authority implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -40,4 +42,5 @@ public class Authority {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
 }
