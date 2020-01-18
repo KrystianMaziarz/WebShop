@@ -5,12 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.store.webstore.controllers.dtos.OrderDto;
 import pl.com.store.webstore.entities.Customer;
+import pl.com.store.webstore.entities.Item;
 import pl.com.store.webstore.entities.Order;
 import pl.com.store.webstore.repositories.CustomerRepository;
 import pl.com.store.webstore.repositories.ItemRespository;
 import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.ItemService;
 import pl.com.store.webstore.services.OrderService;
+import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
 import java.util.stream.Collectors;
 
@@ -22,23 +24,35 @@ public class OrderServiceImpl implements OrderService {
     private ItemRespository itemRespository;
 
     private CustomerRepository customerRepository;
+    private ItemService service;
 
-    public OrderServiceImpl(OrderRepository repository, ItemRespository itemRespository, CustomerRepository customerRepository) {
+    public OrderServiceImpl(OrderRepository repository, ItemRespository itemRespository, CustomerRepository customerRepository, ItemService service) {
         this.repository = repository;
-        this.itemRespository=itemRespository;
-        this.customerRepository=customerRepository;
+        this.itemRespository = itemRespository;
+        this.customerRepository = customerRepository;
+        this.service = service;
     }
 
     @Transactional
     @Override
-    public Long addOrder(OrderDto orderDto) {
-        Order order = new Order ();
-        Customer customer=customerRepository.getOne(orderDto.getCustomerId());
-        order.setCustomer(customer);
-        order.setItems(orderDto.getItemsIds().stream().map(id ->itemRespository.getOne(id)).collect(Collectors.toList()));
+    public Order addOrderDto(OrderDto orderDto) {
+        // TODO: 16/01/2020 do przebudowania dwie poniższe metody
+        Order order = new Order();
+        Customer customer = customerRepository.getOne(orderDto.getCustomerId());
+        order.setItems(orderDto.getItems().stream().map(ItemMapper::mapToItem).collect(Collectors.toList()));
         order.setOrderPrice(orderDto.getOrderPrice());
         order.setOrderDate(orderDto.getOrderDate());
         Order persistedOrder = repository.save(order);
-        return persistedOrder.getId();
+        return persistedOrder;
+    }
+
+    @Transactional
+    @Override
+    public Order addOrder(Order order, Item item) {
+
+        Order persisted = repository.save(order);
+        item.setOrders(Lists.newArrayList(persisted));
+        persisted.setItems(Lists.newArrayList(item));
+        return persisted;
     }
 }

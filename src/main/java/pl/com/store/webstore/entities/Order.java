@@ -33,7 +33,7 @@ public class Order {
 
 
     public Order(Customer customer, List<Item> items, LocalDate orderDate) {
-        this.customer=customer;
+        this.customer = customer;
         this.items = items;
         this.orderDate = orderDate;
     }
@@ -45,9 +45,11 @@ public class Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
+
     public BigDecimal getOrderPrice() {
         return orderPrice;
     }
+
     public void setOrderPrice(BigDecimal orderPrice) {
         this.orderPrice = orderPrice;
     }

@@ -4,6 +4,8 @@ import pl.com.store.webstore.entities.Category;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 
 public class ItemDto implements Serializable {
 
@@ -19,9 +21,24 @@ public class ItemDto implements Serializable {
 
     private String photoUrl;
 
+    private List<OrderDto>orders;
+
+    public List<OrderDto> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderDto> orders) {
+        this.orders = orders;
+    }
+
     public Long getId() {
         return id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Category getCategory() {
         return category;
     }
@@ -62,5 +79,20 @@ public class ItemDto implements Serializable {
         this.price = price;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ItemDto)) return false;
+        ItemDto itemDto = (ItemDto) o;
+        return Objects.equals(getName(), itemDto.getName()) &&
+                Objects.equals(getPrice(), itemDto.getPrice()) &&
+                Objects.equals(getDescription(), itemDto.getDescription()) &&
+                Objects.equals(getCategory(), itemDto.getCategory()) &&
+                Objects.equals(getPhotoUrl(), itemDto.getPhotoUrl());
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getPrice(), getDescription(), getCategory(), getPhotoUrl());
+    }
 }

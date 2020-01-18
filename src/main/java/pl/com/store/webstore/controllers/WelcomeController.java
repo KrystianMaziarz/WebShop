@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
+import pl.com.store.webstore.entities.Customer;
+import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.ItemService;
 import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
@@ -23,10 +25,12 @@ public class WelcomeController {
     private boolean logged;
     private boolean isAdmin;
     private ItemService service;
+    private CustomerService customerService;
 
 
-    public WelcomeController(ItemService service) {
+    public WelcomeController(ItemService service,CustomerService customerService) {
         this.service = service;
+        this.customerService=customerService;
     }
 
     @GetMapping({"/wellcome", "/"})
@@ -34,16 +38,23 @@ public class WelcomeController {
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = false);
-        return "/wellcome";
+        model.addAttribute("admin", isAdmin = isAdmin());
+        return "wellcome";
     }
 
     @GetMapping({"/wellcome/logged"})
-    public String showWelcomeFormAfterLogging(Model model) {
+    public String showWelcomeFormAfterLogging(Model model,HttpServletRequest request) {
+        String email = request.getUserPrincipal().getName();
+        Customer customer = customerService.findByEmail(email);
+        Long id = customer.getId();
+        Object count = request.getSession().getAttribute("count");
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = true);
         model.addAttribute("admin", isAdmin = isAdmin());
-        return "/wellcome";
+        model.addAttribute("customerId", id);
+        model.addAttribute("count",count);
+        return "wellcome";
     }
 
     @GetMapping({"/wellcome/admin"})
@@ -52,7 +63,7 @@ public class WelcomeController {
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = true);
         model.addAttribute("admin", isAdmin = isAdmin());
-        return "/wellcome";
+        return "wellcome";
     }
 
     @GetMapping({"/wellcome/admin/additem"})
@@ -73,6 +84,17 @@ public class WelcomeController {
         model.addAttribute("customer", user);
         return "/setcustomer";
     }
+
+    @GetMapping({"/payment"})
+    public String setpaymentPanel(HttpServletRequest httpServletRequest, Model model) {
+
+        Object itemDto = httpServletRequest.getSession().getAttribute("itemDto");
+        Object orderDto = httpServletRequest.getSession().getAttribute("orderDto");
+        model.addAttribute("item", itemDto);
+        model.addAttribute("orderDto",orderDto);
+        return "/payment";
+    }
+
 
     private List<ItemDto> getItemDtos() {
         List<ItemDto> items = new ArrayList<>();
