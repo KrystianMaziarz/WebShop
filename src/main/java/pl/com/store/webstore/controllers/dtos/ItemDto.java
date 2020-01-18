@@ -4,6 +4,7 @@ import pl.com.store.webstore.entities.Category;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 public class ItemDto implements Serializable {
@@ -20,8 +21,22 @@ public class ItemDto implements Serializable {
 
     private String photoUrl;
 
+    private List<OrderDto>orders;
+
+    public List<OrderDto> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderDto> orders) {
+        this.orders = orders;
+    }
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Category getCategory() {

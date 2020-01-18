@@ -1,4 +1,7 @@
 package pl.com.store.webstore.controllers.dtos;
+
+import pl.com.store.webstore.entities.enums.Status;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,16 +18,31 @@ public class OrderDto implements Serializable {
 
     private BigDecimal orderPrice;
 
-    private List<Long> itemsIds;
+    private List<ItemDto> items;
+    private Status status;
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
     }
-    public List<Long> getItemsIds() {
-        return itemsIds;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void setItemsIds(List<Long> itemsIds) {
-        this.itemsIds = itemsIds;
+
+    public List<ItemDto> getItems() {
+        return items;
+    }
+
+    public void setItems(List<ItemDto> itemsIds) {
+        this.items = items;
     }
 
     public LocalDate getOrderDate() {
@@ -50,8 +68,6 @@ public class OrderDto implements Serializable {
     public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
-
-
 
 
 }

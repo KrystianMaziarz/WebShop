@@ -1,10 +1,13 @@
 package pl.com.store.webstore.services.implementations;
+import com.google.common.collect.Lists;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.entities.Item;
+import pl.com.store.webstore.entities.Order;
 import pl.com.store.webstore.repositories.ItemRespository;
+import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.ItemService;
 
 import java.util.List;
@@ -12,9 +15,11 @@ import java.util.List;
 public class ItemServiceImp implements ItemService {
 
     private ItemRespository respository;
+    private OrderRepository orderRepository;
 
-    public ItemServiceImp(ItemRespository respository) {
+    public ItemServiceImp(ItemRespository respository, OrderRepository orderRepository) {
         this.respository = respository;
+        this.orderRepository=orderRepository;
     }
 
     @Transactional
@@ -78,5 +83,20 @@ public class ItemServiceImp implements ItemService {
         respository.deleteById(id);
         return "Deleted";
     }
-
+    @Transactional
+    @Override
+    public Item setBoughtItem(ItemDto itemDto, Order order) {
+        Item item = respository.getOne(itemDto.getId());
+        if (item.getOrders()!=null){
+        item.getOrders().add(order);}
+        else{
+        item.setOrders(Lists.newArrayList(order));}
+        if (order.getItems()!=null){
+        order.getItems().add(item);}
+        else {
+            order.setItems(Lists.newArrayList(item));
+        }
+        orderRepository.save(order);
+        return item;
+    }
 }

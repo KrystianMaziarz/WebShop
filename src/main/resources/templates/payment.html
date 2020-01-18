@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment</title>
+</head>
+<body>
+<h2>kupiłeś : </h2>
+
+<tr id="itemDto" th:name="itemDto" th:object="${item}">
+
+    <td th:text="${item.getId()}"/>
+    <td th:text="${item.getName()}"/>
+    <td th:text="${item.getDescription()}"/>
+    <td th:text="${item.getPrice()}"/>
+    <td th:text="${item.getCategory()}"/>
+    <td th:text="${item.getPhotoUrl()}"/>
+
+
+</tr>
+<br>
+<tr id="orderDto" th:name="orderDto" th:object="${orderDto}">
+
+    <span>zamówienie : </span>
+    <td th:text="${orderDto.id}"/>
+    <td th:text="${orderDto.status}"/>
+</tr>
+<br>
+<br>
+<button>Zapłać</button>
+</body>
+</html>

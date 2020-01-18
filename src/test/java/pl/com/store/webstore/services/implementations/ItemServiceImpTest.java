@@ -11,6 +11,7 @@ import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.entities.Category;
 import pl.com.store.webstore.entities.Item;
 import pl.com.store.webstore.repositories.ItemRespository;
+import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.ItemService;
 
 import java.math.BigDecimal;
@@ -22,12 +23,14 @@ public class ItemServiceImpTest {
 
     @Mock
     private ItemRespository respository;
+    @Mock
+    private OrderRepository orderRepository;
 
     private ItemService service;
 
     @Before
     public void setUp()throws Exception{
-        service=new ItemServiceImp(respository);
+        service=new ItemServiceImp(respository,orderRepository);
     }
 
     @Test
