@@ -3,6 +3,16 @@
 <head>
     <title>findcustomer</title>
 </head>
+<head>
+    <style>
+        body {
+            background-color: lightpink;
+        }
+        * {
+            font-family: "Comic Sans MS";
+        }
+    </style>
+</head>
 <body>
     <form action="/customers/" method="get" th:object="${customer}">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -37,26 +47,20 @@
         </fieldset>
     </form>
     <br>
-    <p>albo </p>
-    <br>
-    <form action="/customers/all" method="get" th:object="${customers}">
+    <form action="/customers/all" method="get" th:object="${customers}"></form>
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 <fieldset>
     <legend> wyświetl wszystkich klientów</legend>
     <div >
         <button type="submit" class="btn">Pobierz</button>
-
-
     </div>
 </fieldset>
-    </form>
-    <br>
-    <tr  th:each="customer : ${customers}">
-        <td th:text="${customer.id}"/>
-        <td th:text="${customer.firstname}"/>
-        <td th:text="${customer.lastname}"/>
-        <td th:text="${customer.email}"/>
-    </tr>
-    <br>
+
+    <tr th:each="custom: ${customers}">
+    <td th:text="${custom.id}"/>
+    <td th:text="${custom.firstname}"/>
+    <td th:text="${custom.lastname}"/>
+    <td th:text="${custom.email}"/>
+
 </body>
 </html>
