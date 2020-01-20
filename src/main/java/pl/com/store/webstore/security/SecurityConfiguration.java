@@ -27,9 +27,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customerDetailService)
                 .passwordEncoder(passwordEncoder);
-//                .withUser("user@gmail.com")
-//                .password(passwordEncoder.encode("Pass1!"))
-//                .roles("ROLE_ADMIN","ROLE_CUSTOMER");
     }
 
     @Override
@@ -71,18 +68,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/wellcome");
 
-//                .antMatchers("/wellcome","/").anonymous()
-//                .antMatchers("/wellcome/logged").access("hasRole('ROLE_USER')or hasRole('ROLE_ADMIN')")
-//                .antMatchers("/admin").access("hasRole('ROLE_ADMIN')")
-//                .and()
-//                .formLogin().loginPage("/login")
-//                .defaultSuccessUrl("/wellcome/logged",true)
-//                .failureUrl("/loginPage?error")
-//                .usernameParameter("email").passwordParameter("password")
-//                .and()
-//                .logout().logoutSuccessUrl("/loginPage?logout");
 
-//        http.csrf().disable();
-//        http.headers().frameOptions().disable();
     }
 }

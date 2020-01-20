@@ -1,4 +1,4 @@
-package pl.com.store.webstore.controllers;
+package pl.com.store.webstore.controllers.restControllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

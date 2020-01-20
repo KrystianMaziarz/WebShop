@@ -1,4 +1,4 @@
-package pl.com.store.webstore.controllers;
+package pl.com.store.webstore.controllers.httpControllers;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,34 +7,33 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
 import pl.com.store.webstore.entities.Customer;
+import pl.com.store.webstore.exceptions.ItemNotExists;
 import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.ItemService;
 import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
 public class WelcomeController {
 
-    private boolean logged;
-    private boolean isAdmin;
+    private boolean logged = false;
+    private boolean isAdmin = false;
     private ItemService service;
     private CustomerService customerService;
 
 
-    public WelcomeController(ItemService service,CustomerService customerService) {
+    public WelcomeController(ItemService service, CustomerService customerService) {
         this.service = service;
-        this.customerService=customerService;
+        this.customerService = customerService;
     }
 
     @GetMapping({"/wellcome", "/"})
-    public String showWelcomeForm(Model model) {
+    public String showWelcomeForm(Model model) throws ItemNotExists {
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = false);
@@ -43,22 +42,22 @@ public class WelcomeController {
     }
 
     @GetMapping({"/wellcome/logged"})
-    public String showWelcomeFormAfterLogging(Model model,HttpServletRequest request) {
+    public String showWelcomeFormAfterLogging(Model model, HttpServletRequest request) throws ItemNotExists {
         String email = request.getUserPrincipal().getName();
         Customer customer = customerService.findByEmail(email);
         Long id = customer.getId();
-        Object count = request.getSession().getAttribute("count");
+        Object numberOfitemsAtBasket = request.getSession().getAttribute("count");
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = true);
         model.addAttribute("admin", isAdmin = isAdmin());
         model.addAttribute("customerId", id);
-        model.addAttribute("count",count);
+        model.addAttribute("count", numberOfitemsAtBasket);
         return "wellcome";
     }
 
     @GetMapping({"/wellcome/admin"})
-    public String showWelcomeWithAdminPanel(Model model) {
+    public String showWelcomeWithAdminPanel(Model model) throws ItemNotExists {
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = true);
@@ -73,39 +72,21 @@ public class WelcomeController {
 
     @GetMapping({"/wellcome/admin/findcustomer"})
     public String findCustomerPanel(HttpServletRequest httpServletRequest, Model model) {
-       List customers =(List)httpServletRequest.getSession().getAttribute("customers");
-        model.addAttribute("customers",customers);
+        List customers = (List) httpServletRequest.getSession().getAttribute("customers");
+        model.addAttribute("customers", customers);
         return "/findcustomer";
     }
 
-    @GetMapping({"/setcustomer"})
-    public String setCustomerPanel(HttpServletRequest httpServletRequest, Model model) {
-        CustomerDto user = (CustomerDto) httpServletRequest.getSession().getAttribute("customer");
-        model.addAttribute("customer", user);
-        return "/setcustomer";
-    }
+    private List<ItemDto> getItemDtos() throws ItemNotExists {
+        List<ItemDto> items;
+        if (service.findAllItems().isEmpty()) {
 
-    @GetMapping({"/payment"})
-    public String setpaymentPanel(HttpServletRequest httpServletRequest, Model model) {
+            throw new ItemNotExists();
 
-        Object itemDto = httpServletRequest.getSession().getAttribute("itemDto");
-        Object orderDto = httpServletRequest.getSession().getAttribute("orderDto");
-        model.addAttribute("item", itemDto);
-        model.addAttribute("orderDto",orderDto);
-        return "/payment";
-    }
-
-
-    private List<ItemDto> getItemDtos() {
-        List<ItemDto> items = new ArrayList<>();
-        if (!service.findAllItems().isEmpty()) {
+        } else {
             items = service.findAllItems().stream()
                     .map(ItemMapper::mapToDto)
                     .collect(Collectors.toList());
-        } else {
-            ItemDto itemDto = new ItemDto();
-            itemDto.setDescription("Nie znaleziono żadnego przedmiotu");
-            items.add(itemDto);
         }
         return items;
     }

@@ -9,6 +9,7 @@ import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
 import pl.com.store.webstore.entities.Customer;
+import pl.com.store.webstore.repositories.AddressRepository;
 import pl.com.store.webstore.repositories.CustomerRepository;
 import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
@@ -20,16 +21,18 @@ public class CustomerServiceImpTest {
 
     @Mock
     private CustomerRepository repository;
+    @Mock
+    private AddressRepository addressRepository;
 
     private CustomerService service;
 
     @org.junit.Before
     public void setUp() throws Exception {
-        service = new CustomerServiceImp(repository);
+        service = new CustomerServiceImp(repository,addressRepository);
     }
 
     @org.junit.Test
-    public void testShouldAddCustomer() {
+    public void testShouldAddCustomer() throws Exception {
         //given
         Mockito.when(repository.save(Mockito.any())).thenReturn(new Customer());
         //when
@@ -110,7 +113,7 @@ public class CustomerServiceImpTest {
         expectedCustomer.setFirstname("Jan");
         expectedCustomer.setLastname("Nowak");
         //when
-        Customer persistedCustomer = service.updateCustomer(customerDto, addressDto);
+        Customer persistedCustomer = service.updateCustomer(customerDto);
         //then
         assertEquals(expectedCustomer, persistedCustomer);
     }

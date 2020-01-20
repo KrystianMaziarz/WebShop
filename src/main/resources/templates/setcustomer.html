@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-<form th:action="@{/customers}" th:method="post" th:object="${customerDto}" >
+<form action="/customers" th:method="post" th:object="${customerDto}" role="form">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     <fieldset>
         <legend>zmień dane klienta</legend>
@@ -44,22 +44,22 @@
             <input type="text" id="lastname" name="lastname" th:value = "${customer.lastname}"/>
         </p>
 
-        <form th:action="@{/customers/(id=${customer.id})}" th:method="post" th:object="${addressDto}">
+        <form action="/customers" th:method="post" th:object="${addressDto}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <fieldset>
                 <p>
                     <label for="city">Miasto</label>
-                    <input type="text" id="city" name="city" th:value = "${customer.address.city}"/>
+                    <input type="text" id="city" name="city" th:value = "${customer.addressDto.city}"/>
                 </p>
                 <p>
                     <label for="street">Ulica</label>
-                    <input type="text" id="street" name="street"th:value = "${customer.address.street}"/>
+                    <input type="text" id="street" name="street"th:value = "${customer.addressDto.street}"/>
                 </p><p>
                 <label for="number">Nr domu/mieszkania</label>
-                <input type="text" id="number" name="number"th:value = "${customer.address.number}"/>
+                <input type="text" id="number" name="number"th:value = "${customer.addressDto.number}"/>
             </p><p>
                 <label for="zipcode">kod pocztowy</label>
-                <input type="text" id="zipcode" name="zipcode"th:value= "${customer.address.zipcode}"/>
+                <input type="text" id="zipcode" name="zipcode"th:value= "${customer.addressDto.zipcode}"/>
             </p>
                 <br/>
                 <div>

@@ -2,6 +2,7 @@ package pl.com.store.webstore.services.implementations.mappers;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.security.CustomCustomerDetails;
@@ -36,7 +37,9 @@ public class CustomerMapper {
         customerDto.setFirstname(customer.getFirstname());
         customerDto.setLastname(customer.getLastname());
         customerDto.setEmail(customer.getEmail());
-        customerDto.setAddress(customer.getAddress());
+        AddressDto addressDto = AddressMapper.mapToDto(customer.getAddress());
+        addressDto.setCustomerId(customer.getId());
+        customerDto.setAddressDto(addressDto);
         customerDto.setPassword(customer.getPassword());
 
         return customerDto;

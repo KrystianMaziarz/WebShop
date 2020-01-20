@@ -1,4 +1,4 @@
-package pl.com.store.webstore.controllers;
+package pl.com.store.webstore.controllers.restControllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -31,10 +31,10 @@ public class BasketController {
         String email = request.getUserPrincipal().getName();
         Customer customer = customerService.findByEmail(email);
         Basket basket = basketService.addToBasket(customer.getId(), itemDto);
-        long count = (long) basket.getItems().size();
+        long itemsAtBasket = basket.getItems().size();
 
         String url = "/wellcome/logged";
-        request.getSession().setAttribute("count", count);
+        request.getSession().setAttribute("count", itemsAtBasket);
         response.setHeader("Location", url);
         response.setStatus(302);
     }

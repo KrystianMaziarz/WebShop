@@ -1,4 +1,4 @@
-package pl.com.store.webstore.controllers;
+package pl.com.store.webstore.controllers.restControllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -73,12 +73,13 @@ public class CustomerController {
 //    }
 
     @PostMapping
-    public void updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CustomerDto updated = CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto));
-        String url="/update";
-        request.getSession().setAttribute("customer",updated);
-        response.setHeader("Location", url);
-        response.setStatus(302);
+    public ResponseEntity<CustomerDto> updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        customerDto.setAddressDto(addressDto);
+        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto)));
+//        String url="/update";
+//        request.getSession().setAttribute("customer",updated);
+//        response.setHeader("Location", url);
+//        response.setStatus(302);
 
     }
 
