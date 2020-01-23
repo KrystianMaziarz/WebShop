@@ -5,19 +5,6 @@
     <title>Payment</title>
 </head>
 <body>
-<h2>kupiłeś : </h2>
-
-<tr id="itemDto" th:name="itemDto" th:object="${item}">
-
-    <td th:text="${item.getId()}"/>
-    <td th:text="${item.getName()}"/>
-    <td th:text="${item.getDescription()}"/>
-    <td th:text="${item.getPrice()}"/>
-    <td th:text="${item.getCategory()}"/>
-    <td th:text="${item.getPhotoUrl()}"/>
-
-
-</tr>
 <br>
 <tr id="orderDto" th:name="orderDto" th:object="${orderDto}">
 
@@ -27,6 +14,34 @@
 </tr>
 <br>
 <br>
-<button>Zapłać</button>
+<h2>kupiłeś : </h2>
+<div th:if="!${basket}">
+<tr  th:id="itemDto" th:name="itemDto" th:object="${itemDto}">
+
+    <td th:text="${itemDto.getId()}"/>
+    <td th:text="${itemDto.getName()}"/>
+    <td th:text="${itemDto.getDescription()}"/>
+    <td th:text="${itemDto.getPrice()}"/>
+    <td th:text="${itemDto.getCategory()}"/>
+    <td th:text="${itemDto.getPhotoUrl()}"/>
+
+
+</tr>
+</div>
+<div th:if="${basket}" th:id="items" th:name="items" th:object="${items}">
+    <br>
+    <tr th:each="item:${items}" >
+        <td th:text="${item.id}"/>
+        <td th:text="${item.name}"/>
+        <td th:text="${item.description}"/>
+        <td th:text="${item.price}"/>
+        <td th:text="${item.category}"/>
+        <td th:text="${item.photoUrl}"/>
+    </tr>
+    <br>
+
+</div>
+<br>
+    <button>Zapłać</button>
 </body>
 </html>

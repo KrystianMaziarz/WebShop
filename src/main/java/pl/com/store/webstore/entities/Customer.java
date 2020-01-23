@@ -2,6 +2,7 @@ package pl.com.store.webstore.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class Customer {
     @OneToOne(orphanRemoval = true)
     private Address address;
 
-    @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -62,10 +63,6 @@ public class Customer {
                 Objects.equals(getPasswordExpirationDate(), customer.getPasswordExpirationDate());
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getEmail(), getPassword(), getFirstname(), getLastname(), getAddress(), getOrders(), authorities, getIslocked(), isEnabled, getAccountExpirationDate(), getPasswordExpirationDate());
-    }
 
     public Long getId() {
         return id;

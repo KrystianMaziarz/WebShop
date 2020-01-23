@@ -9,9 +9,10 @@ import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
 import pl.com.store.webstore.entities.Customer;
+import pl.com.store.webstore.repositories.AddressRepository;
 import pl.com.store.webstore.repositories.CustomerRepository;
+import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.CustomerService;
-import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
 import static org.junit.Assert.assertEquals;
 
@@ -20,16 +21,20 @@ public class CustomerServiceImpTest {
 
     @Mock
     private CustomerRepository repository;
+    @Mock
+    private AddressRepository addressRepository;
+    @Mock
+    private OrderRepository orderRepository;
 
     private CustomerService service;
 
     @org.junit.Before
     public void setUp() throws Exception {
-        service = new CustomerServiceImp(repository);
+        service = new CustomerServiceImp(repository, addressRepository, orderRepository);
     }
 
     @org.junit.Test
-    public void testShouldAddCustomer() {
+    public void testShouldAddCustomer() throws Exception {
         //given
         Mockito.when(repository.save(Mockito.any())).thenReturn(new Customer());
         //when
@@ -110,7 +115,7 @@ public class CustomerServiceImpTest {
         expectedCustomer.setFirstname("Jan");
         expectedCustomer.setLastname("Nowak");
         //when
-        Customer persistedCustomer = service.updateCustomer(customerDto, addressDto);
+        Customer persistedCustomer = service.updateCustomer(customerDto);
         //then
         assertEquals(expectedCustomer, persistedCustomer);
     }
@@ -121,6 +126,6 @@ public class CustomerServiceImpTest {
         //when
         service.deleteById(1L);
         //then
-        Mockito.verify(repository,Mockito.times(1)).deleteById(1L);
+        Mockito.verify(repository, Mockito.times(1)).deleteById(1L);
     }
 }

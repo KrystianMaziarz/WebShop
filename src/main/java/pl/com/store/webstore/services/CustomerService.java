@@ -10,14 +10,14 @@ import java.util.List;
 
 public interface CustomerService {
 
-    Long addCustomer(CustomerDto customerDto);
+    Long addCustomer(CustomerDto customerDto) throws Exception;
 
     List<Customer> findAll();
 
     Customer findById(Long id) throws Exception;
     Customer findByEmail(String email);
 
-    Customer updateCustomer(CustomerDto customerDto, AddressDto addressDto) throws Exception;
+    Customer updateCustomer(CustomerDto customerDto) throws Exception;
 
     void deleteById(Long id) throws Exception;
 }

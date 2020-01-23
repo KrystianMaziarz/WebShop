@@ -1,4 +1,4 @@
-package pl.com.store.webstore.controllers;
+package pl.com.store.webstore.controllers.httpControllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,21 +27,19 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-
         CustomerDto customerDto = new CustomerDto();
         model.addAttribute("customer", customerDto);
         return "register";
     }
 
     @PostMapping("/register2")
-    public String registerCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, @ModelAttribute("address") AddressDto addressDto) {
+    public String registerCustomer(@Valid @ModelAttribute("customer") CustomerDto customerDto, BindingResult bindingResult, @ModelAttribute("address") AddressDto addressDto) throws Exception {
 
         if (bindingResult.hasErrors()) {
             return "register";
         }
-        addressService.addAddress(addressDto, customerDto);
+        customerDto.setAddressDto(addressDto);
+        customerService.addCustomer(customerDto);
         return "redirect:/login";
     }
-
-
 }

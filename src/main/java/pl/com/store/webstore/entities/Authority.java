@@ -1,13 +1,13 @@
 package pl.com.store.webstore.entities;
 
-import lombok.NoArgsConstructor;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@NoArgsConstructor
+
 public class Authority implements GrantedAuthority {
 
     @Id
@@ -43,4 +43,12 @@ public class Authority implements GrantedAuthority {
         this.customer = customer;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Authority)) return false;
+        Authority authority1 = (Authority) o;
+        return Objects.equals(getAuthority(), authority1.getAuthority()) &&
+                Objects.equals(getCustomer(), authority1.getCustomer());
+    }
 }

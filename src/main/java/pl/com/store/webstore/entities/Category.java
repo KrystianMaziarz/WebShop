@@ -1,12 +1,12 @@
 package pl.com.store.webstore.entities;
 
-import lombok.NoArgsConstructor;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@NoArgsConstructor
+@Data
 public class Category {
 
     @Id

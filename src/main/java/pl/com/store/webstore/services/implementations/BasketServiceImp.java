@@ -3,6 +3,7 @@ package pl.com.store.webstore.services.implementations;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
+import pl.com.store.webstore.exceptions.NoBasketException;
 import pl.com.store.webstore.services.Basket;
 import pl.com.store.webstore.services.BasketService;
 
@@ -39,9 +40,9 @@ public class BasketServiceImp implements BasketService {
 
     @Override
     public Basket getBasket(Long customerId) {
-        return baskets.stream()
-                .peek(basket -> basket.getCustomerId().equals(customerId))
-                .findFirst().orElse(null);
+       return baskets.stream()
+                .filter(basket -> basket.getCustomerId().equals(customerId))
+                .findFirst().get();
     }
 
     @Override

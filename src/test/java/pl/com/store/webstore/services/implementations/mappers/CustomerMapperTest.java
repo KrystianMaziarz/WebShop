@@ -115,7 +115,7 @@ public class CustomerMapperTest {
         expected.setFirstname("Jan");
         expected.setLastname("Nowak");
         expected.setId(1L);
-        expected.setAddress(address);
+        expected.setAddressDto(AddressMapper.mapToDto(address));
         //when
         CustomerDto result = CustomerMapper.mapToDto(customer);
         //then
@@ -139,7 +139,7 @@ public class CustomerMapperTest {
         expected.setFirstname("Jan");
         expected.setLastname("Nowak");
         expected.setId(1L);
-        expected.setAddress(null);
+        expected.setAddressDto(null);
         //when
         CustomerDto result = CustomerMapper.mapToDto(customer);
         //then
@@ -168,7 +168,7 @@ public class CustomerMapperTest {
         expected.setFirstname("ciaoooooooo");
         expected.setLastname("Nowak");
         expected.setId(1L);
-        expected.setAddress(address);
+        expected.setAddressDto(AddressMapper.mapToDto(address));
         //when
         CustomerDto result = CustomerMapper.mapToDto(customer);
         //then

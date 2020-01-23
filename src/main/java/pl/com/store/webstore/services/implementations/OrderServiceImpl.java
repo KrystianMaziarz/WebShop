@@ -14,6 +14,7 @@ import pl.com.store.webstore.services.ItemService;
 import pl.com.store.webstore.services.OrderService;
 import pl.com.store.webstore.services.implementations.mappers.ItemMapper;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,5 +55,23 @@ public class OrderServiceImpl implements OrderService {
         item.setOrders(Lists.newArrayList(persisted));
         persisted.setItems(Lists.newArrayList(item));
         return persisted;
+    }
+
+    @Transactional
+    @Override
+    public void deleteById(Long id){
+        repository.deleteById(id);
+    }
+
+    @Transactional
+    @Override
+    public void deleteOrder(Order order){
+        repository.delete(order);
+    }
+
+    @Transactional
+    @Override
+    public void deleteAll(List<Order> orders){
+        repository.deleteAll(orders);
     }
 }
