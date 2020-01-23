@@ -23,7 +23,7 @@ public class AddressController {
 
     @PostMapping
     public Long addAddress(@RequestBody AddressDto addressDto, @RequestBody CustomerDto customerDto) {
-        return service.addAddress(addressDto,customerDto);
+        return service.addAddress(addressDto, customerDto);
     }
 
     @GetMapping

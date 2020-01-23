@@ -1,6 +1,5 @@
 package pl.com.store.webstore.controllers.restControllers;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
@@ -20,77 +19,54 @@ public class CustomerController {
 
     public CustomerController(CustomerServiceImp service) {
         this.service = service;
+
     }
 
-//    @PostMapping
-//    public Long addCustomer(@RequestBody CustomerDto customerDto) {
-//        return service.addCustomer(customerDto);
-//    }
-
-
     @GetMapping("/all")
-    public void findAll(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
-        List<CustomerDto> customers = service.findAll().stream()
-                .map(CustomerMapper::mapToDto)
-                .collect(Collectors.toList());
-        String url = "/wellcome/admin/findcustomer";
-        httpServletRequest.getSession().setAttribute("customers", customers);
-        httpServletResponse.setHeader("Location", url);
-        httpServletResponse.setStatus(302);
+    public void findAll(HttpServletRequest request, HttpServletResponse response) {
+        List<CustomerDto> customers = getCustomerDtos();
+        redirectWithAttribute(request, response, "customers", customers, "/wellcome/admin/findcustomer");
+    }
+
+    private List<CustomerDto> getCustomerDtos() {
+        return service.findAll().stream()
+                    .map(CustomerMapper::mapToDto)
+                    .collect(Collectors.toList());
     }
 
     @GetMapping
-    public void findById(@RequestParam Long id, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public void findById(@RequestParam Long id, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerDto customerDto = CustomerMapper.mapToDto(service.findById(id));
-
-        String url = "/setcustomer";
-        httpServletRequest.getSession().setAttribute("customer", customerDto);
-        httpServletResponse.setHeader("Location", url);
-        httpServletResponse.setStatus(302);
+        redirectWithAttribute(request, response, "customer", customerDto, "/setcustomer");
     }
+
 
     @GetMapping("/email")
-    public void findByEmail(@RequestParam String email, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public void findByEmail(@RequestParam String email, HttpServletRequest request, HttpServletResponse response) {
         CustomerDto customerDto = CustomerMapper.mapToDto(service.findByEmail(email));
-
-        String url = "/setcustomer";
-        httpServletRequest.getSession().setAttribute("customer", customerDto);
-        httpServletResponse.setHeader("Location", url);
-        httpServletResponse.setStatus(302);
+        redirectWithAttribute(request, response, "customer", customerDto, "/setcustomer");
     }
 
-
-//    @PostMapping(value = "/{id}")
-//    public ResponseEntity<CustomerDto> updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("address") AddressDto addressDto) throws Exception {
-//        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
-//    }
-
-//    @PostMapping(value = "/{id}")
-//    public ResponseEntity<CustomerDto> updateCustomer(HttpServletRequest httpServletRequest) throws Exception {
-//        CustomerDto user =(CustomerDto) httpServletRequest.getAttribute("user");
-//        //return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto, addressDto)));
-//        return null;
-//    }
-
     @PostMapping
-    public ResponseEntity<CustomerDto> updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void updateCustomer(@ModelAttribute("customerDto") CustomerDto customerDto, @ModelAttribute("addressDto") AddressDto addressDto, HttpServletRequest request, HttpServletResponse response) throws Exception {
         customerDto.setAddressDto(addressDto);
-        return ResponseEntity.ok(CustomerMapper.mapToDto(service.updateCustomer(customerDto)));
-//        String url="/update";
-//        request.getSession().setAttribute("customer",updated);
-//        response.setHeader("Location", url);
-//        response.setStatus(302);
+        CustomerDto updated = CustomerMapper.mapToDto(service.updateCustomer(customerDto));
+        redirectWithAttribute(request, response, "customer", updated, "/setcustomer");
 
     }
 
     @PostMapping("/del")
-    public ResponseEntity<String> doDelete(@RequestParam Long deletedId) throws Exception {
-        deleteCustomer(deletedId);
-        return ResponseEntity.ok("Deleted !");
+    public void doDelete(@RequestParam Long deletedId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        service.deleteById(deletedId);
+        List<CustomerDto> customerDtos = getCustomerDtos();
+        redirectWithAttribute(request, response, "customers", customerDtos, "/wellcome/admin/findcustomer");
     }
 
-    @DeleteMapping
-    public void deleteCustomer(Long deletedId) throws Exception {
-        service.deleteById(deletedId);
+    private void redirectWithAttribute(HttpServletRequest request, HttpServletResponse response, String attrName, Object customerDto, String url) {
+
+        request.getSession().setAttribute(attrName, customerDto);
+        response.setHeader("Location", url);
+        response.setStatus(302);
     }
+
 }

@@ -12,6 +12,7 @@ import pl.com.store.webstore.entities.Authority;
 import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.repositories.AddressRepository;
 import pl.com.store.webstore.repositories.CustomerRepository;
+import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.implementations.mappers.AddressMapper;
 import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
@@ -24,10 +25,12 @@ public class CustomerServiceImp implements CustomerService {
 
     private CustomerRepository repository;
     private AddressRepository addressRepository;
+    private OrderRepository orderRepository;
 
-    public CustomerServiceImp(CustomerRepository repository, AddressRepository addressRepository) {
+    public CustomerServiceImp(CustomerRepository repository, AddressRepository addressRepository,OrderRepository orderRepository) {
         this.repository = repository;
         this.addressRepository=addressRepository;
+        this.orderRepository=orderRepository;
     }
 
     @Override
@@ -81,6 +84,7 @@ public class CustomerServiceImp implements CustomerService {
 
     @Override
     public void deleteById(Long id) throws Exception {
+        orderRepository.deleteAll(repository.getOne(id).getOrders());
         repository.deleteById(id);
     }
 

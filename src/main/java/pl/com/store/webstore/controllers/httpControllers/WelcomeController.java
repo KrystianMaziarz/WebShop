@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @Controller
 public class WelcomeController {
 
-    private boolean logged = false;
-    private boolean isAdmin = false;
+    private boolean logged;
+    private boolean isAdmin;
     private ItemService service;
     private CustomerService customerService;
 
@@ -46,13 +46,13 @@ public class WelcomeController {
         String email = request.getUserPrincipal().getName();
         Customer customer = customerService.findByEmail(email);
         Long id = customer.getId();
-        Object numberOfitemsAtBasket = request.getSession().getAttribute("count");
+        Object numberOfItemsAtBasket = request.getSession().getAttribute("count");
         List<ItemDto> items = getItemDtos();
         model.addAttribute("items", items);
         model.addAttribute("logged", logged = true);
         model.addAttribute("admin", isAdmin = isAdmin());
         model.addAttribute("customerId", id);
-        model.addAttribute("count", numberOfitemsAtBasket);
+        model.addAttribute("count", numberOfItemsAtBasket);
         return "wellcome";
     }
 

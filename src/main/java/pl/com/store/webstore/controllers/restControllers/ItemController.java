@@ -52,6 +52,7 @@ public class ItemController {
         ItemDto dto = ItemMapper.mapToDto(item);
         OrderDto orderDto = dto.getOrders().get(0);
         String url = "/payment";
+        request.getSession().setAttribute("basket",false);
         request.getSession().setAttribute("itemDto", dto);
         request.getSession().setAttribute("orderDto", orderDto);
         response.setHeader("Location", url);

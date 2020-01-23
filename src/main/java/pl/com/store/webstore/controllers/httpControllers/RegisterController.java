@@ -27,7 +27,6 @@ public class RegisterController {
 
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
-
         CustomerDto customerDto = new CustomerDto();
         model.addAttribute("customer", customerDto);
         return "register";
@@ -43,6 +42,4 @@ public class RegisterController {
         customerService.addCustomer(customerDto);
         return "redirect:/login";
     }
-
-
 }
