@@ -73,7 +73,7 @@ public class BasketController {
     }
 
     @PostMapping("/buy")
-    public void setBoughtBasket(@ModelAttribute("wrap") ItemDtoWrapper receivedWrapper, HttpServletRequest request, HttpServletResponse response) {
+    public void setBoughtBasket(@ModelAttribute("wrapToSend") ItemDtoWrapper receivedWrapper, HttpServletRequest request, HttpServletResponse response) {
         ItemDtoWrapper wrapperToSend=new ItemDtoWrapper();
         Principal currentUser = request.getUserPrincipal();
         Customer customer = customerService.findByEmail(currentUser.getName());

@@ -40,12 +40,16 @@
         </p>
         <p>
             <label>Zdjęcie</label>
-            <input type="text" id="photoUrl" name="photoUrl"/>
-
+                <input type="text" id="photoUrl" name="photoUrl" th:value="${photolocation}"/>
         </p>
         <br/>
     </fieldset>
     <button type="submit">Dodaj przedmiot</button>
+</form>
+
+<form action="/photos" method="get" th:object="${photolocation}">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit" class="btn">Wybierz</button>
 </form>
 </body>
 </html>

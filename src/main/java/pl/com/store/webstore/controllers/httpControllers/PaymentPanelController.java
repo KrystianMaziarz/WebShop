@@ -8,6 +8,7 @@ import pl.com.store.webstore.controllers.dtos.OrderDto;
 import pl.com.store.webstore.services.implementations.ItemDtoWrapper;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -17,8 +18,10 @@ public class PaymentPanelController {
     public String getPaymentPanel(HttpServletRequest httpServletRequest, Model model) {
         ItemDto itemDto = (ItemDto) httpServletRequest.getSession().getAttribute("itemDto");
         OrderDto orderDto = (OrderDto) httpServletRequest.getSession().getAttribute("orderDto");
+        List<ItemDto> items=new ArrayList<>();
+        if (httpServletRequest.getSession().getServletContext().getContextPath().equals("/basket")){
         ItemDtoWrapper wrapper =(ItemDtoWrapper) httpServletRequest.getSession().getAttribute("itemz");
-        List<ItemDto> items = wrapper.getItems();
+         items = wrapper.getItems();}
         boolean basket = (boolean)httpServletRequest.getSession().getAttribute("basket");
         model.addAttribute("itemDto", itemDto);
         model.addAttribute("basket",basket);

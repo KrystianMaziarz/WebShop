@@ -21,9 +21,10 @@
     <br>
 </th:block>
 
-<th:block th:object="${wrap}">
-    <form action="/basket/buy" method="post" th:object="${wrap}">
+<th:block th:id="wrapToSend" th:name="wrapToSend" th:value="${wrap}">
+    <form  action="/basket/buy" method="post" th:object="${wrapToSend}">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <input type="hidden" id="tosend" name="tosend">
         <button class="btn" type="submit">Kup Teraz</button>
     </form>
 </th:block>

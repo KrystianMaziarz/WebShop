@@ -1,9 +1,13 @@
 package pl.com.store.webstore;
 
 import com.google.common.collect.Sets;
+import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import pl.com.store.webstore.entities.Address;
 import pl.com.store.webstore.entities.Authority;
@@ -11,6 +15,7 @@ import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.repositories.AddressRepository;
 import pl.com.store.webstore.repositories.CustomerRepository;
 
+import javax.swing.*;
 import java.time.LocalDate;
 
 @SpringBootApplication
@@ -25,11 +30,17 @@ public class WebstoreApplication implements CommandLineRunner{
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(WebstoreApplication.class, args);
+        ApplicationContext contexto = new SpringApplicationBuilder(WebstoreApplication.class)
+                .web(WebApplicationType.SERVLET)
+                .headless(false)
+                .bannerMode(Banner.Mode.OFF)
+                .run(args);
+
     }
 
     @Override
     public void run(String... args) throws Exception {
+
         Customer byEmail = customerRepository.findByEmail("user@mail.com");
         if (byEmail==null) {
             Customer customer = new Customer();
