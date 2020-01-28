@@ -16,21 +16,21 @@
 <br>
 <h2>kupiłeś : </h2>
 <div th:if="!${basket}">
-<tr  th:id="itemDto" th:name="itemDto" th:object="${itemDto}">
+    <tr th:id="itemDto" th:name="itemDto" th:object="${itemDto}">
 
-    <td th:text="${itemDto.getId()}"/>
-    <td th:text="${itemDto.getName()}"/>
-    <td th:text="${itemDto.getDescription()}"/>
-    <td th:text="${itemDto.getPrice()}"/>
-    <td th:text="${itemDto.getCategory()}"/>
-    <td th:text="${itemDto.getPhotoUrl()}"/>
+        <td th:text="${itemDto.getId()}"/>
+        <td th:text="${itemDto.getName()}"/>
+        <td th:text="${itemDto.getDescription()}"/>
+        <td th:text="${itemDto.getPrice()}"/>
+        <td th:text="${itemDto.getCategory()}"/>
+        <td th:text="${itemDto.getPhotoUrl()}"/>
 
 
-</tr>
+    </tr>
 </div>
-<div th:if="${basket}" th:id="items" th:name="items" th:object="${items}">
+<th:block th:if="${basket}" th:each="item:${items}">
     <br>
-    <tr th:each="item:${items}" >
+    <tr>
         <td th:text="${item.id}"/>
         <td th:text="${item.name}"/>
         <td th:text="${item.description}"/>
@@ -40,8 +40,8 @@
     </tr>
     <br>
 
-</div>
+</th:block>
 <br>
-    <button>Zapłać</button>
+<button>Zapłać</button>
 </body>
 </html>

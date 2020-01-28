@@ -19,7 +19,6 @@ public class BasketPanelController {
 
      Object customerId = request.getSession().getAttribute("customerId");
      model.addAttribute("items",items);
-     model.addAttribute("wrap",toUnwrap);
      model.addAttribute("customer",customerId);
      return "/baskethtml";
  }

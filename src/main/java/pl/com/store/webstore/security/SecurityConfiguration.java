@@ -37,6 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/wellcome/logged/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .antMatchers("/basket/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .antMatchers("wellcome/admin/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/photos/**").access("hasRole('ROLE_ADMIN')")
+
                 .and()
                 .authorizeRequests()
                 .antMatchers("/orders/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
@@ -47,11 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/customers/**").access("hasRole('ROLE_ADMIN')")
                 .antMatchers("/items/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .antMatchers("/baskethtml/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/payment/**")
-                .permitAll()
-
+                .antMatchers("/payment/**").access("hasRole('ROLE_CUSTOMER')or hasRole('ROLE_ADMIN')")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/register/**")

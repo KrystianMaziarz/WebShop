@@ -77,11 +77,10 @@ public class ItemController {
         return ResponseEntity.ok(ItemMapper.mapToDto(service.updateItemById(id, itemDto)));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteItemById(@PathVariable Long id) throws Exception {
-        service.deleteItemById(id);
-        return ResponseEntity.ok("Deleted !");
+    @PostMapping("/delete")
+    public void doDelete(@RequestParam Long deletedId, HttpServletResponse response) throws Exception {
+        service.deleteItemById(deletedId);
+        response.setHeader("Location","/wellcome/logged");
+        response.setStatus(302);
     }
-
-
 }

@@ -9,6 +9,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -37,5 +38,22 @@ public class Order {
         this.customer = customer;
         this.items = items;
         this.orderDate = orderDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        return Objects.equals(getCustomer(), order.getCustomer()) &&
+                Objects.equals(getItems(), order.getItems()) &&
+                Objects.equals(getOrderDate(), order.getOrderDate()) &&
+                getStatus() == order.getStatus() &&
+                Objects.equals(getOrderPrice(), order.getOrderPrice());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCustomer(), getItems(), getOrderDate(), getStatus(), getOrderPrice());
     }
 }
