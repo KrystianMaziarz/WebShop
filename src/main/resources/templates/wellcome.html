@@ -76,8 +76,13 @@
             <input id="photoUrl" name="photoUrl" th:value="${item.getPhotoUrl()}" type="hidden"/>
             <button class="btn" type="submit" >Kup teraz</button>
         </form>
+
+        <form th:if="${admin}" th:action="@{/items/delete}" method="post" style="display: inline-block" object="${item[status.index]}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <input type="hidden" id="deletedId" name="deletedId" th:value="${item.id}">
+            <button class="alert-danger" type="submit" style="color: #ac2925" >Usuń</button>
+        </form>
     </div>
-        <br>
         <div style="clear: both"></div>
     </td>
 </tr>

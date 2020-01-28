@@ -9,47 +9,76 @@
         body {
             background-color: lightpink;
         }
+
         * {
             font-family: "Comic Sans MS";
         }
     </style>
 </head>
 <body>
-<form method="post" action="/items" th:object="${item}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <fieldset>
-        <legend>Dodaj Przedmiot</legend>
-        <p>
-            <label>Nazwa</label>
-            <input type="text" id="name" name="name"/>
-        </p>
-        <p>
-            <label>Cena</label>
-            <input type="number" id="price" name="price"/>
 
-        </p>
-        <p>
-            <label>Opis</label>
-            <input type="text" id="description" name="description"/>
+<fieldset>
+    <div style="float: left">
+        <form method="post" action="/items" th:object="${item}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <legend>Dodaj Przedmiot</legend>
+            <p>
+                <label>Nazwa</label>
+                <input type="text" id="name" name="name" onkeyup='saveValue(this);'/>
+            </p>
+            <p>
+                <label>Cena</label>
+                <input type="number" id="price" name="price" onkeyup='saveValue(this);'/>
 
-        </p>
-        <p>
-            <label>Kategoria</label>
-            <input type="text" id="category" name="category"/>
+            </p>
+            <p>
+                <label>Opis</label>
+                <input type="text" id="description" name="description" onkeyup='saveValue(this);'/>
 
-        </p>
-        <p>
-            <label>Zdjęcie</label>
+            </p>
+            <p>
+                <label>Kategoria</label>
+                <input type="text" id="category" name="category" onkeyup='saveValue(this);'/>
+
+            </p>
+            <p>
+                <label>Zdjęcie</label>
                 <input type="text" id="photoUrl" name="photoUrl" th:value="${photolocation}"/>
-        </p>
-        <br/>
-    </fieldset>
-    <button type="submit">Dodaj przedmiot</button>
-</form>
 
-<form action="/photos" method="get" th:object="${photolocation}">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <button type="submit" class="btn">Wybierz</button>
-</form>
+            </p>
+            <br/>
+            <button type="submit" id="addButton">Dodaj przedmiot</button>
+        </form>
+    </div>
+    <div style="float: left; padding: 0px; margin-left: 0px; margin-top: 204px">
+        <form action="/photos" method="get">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="btn">Wybierz</button>
+        </form>
+    </div>
+</fieldset>
+<div style="clear: both"></div>
+
+<script type="text/javascript">
+    document.getElementById("name").value = getSavedValue("name");
+    document.getElementById("price").value = getSavedValue("price");
+    document.getElementById("description").value = getSavedValue("description");
+    document.getElementById("category").value = getSavedValue("category");
+
+    function saveValue(e) {
+        var id = e.id;
+        var val = e.value;
+        localStorage.setItem(id, val);
+    }
+
+    function getSavedValue(v) {
+        if (!localStorage.getItem(v)) {
+            return "";
+        }
+        return localStorage.getItem(v);
+    }
+
+    localStorage.clear();
+</script>
 </body>
 </html>

@@ -6,17 +6,23 @@ import java.io.File;
 
 public class DirectoryChooser {
 
-    public File chooseDirectoryToSaveFile(){
+    private  static String directoryPath;
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame();
         JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
-        jfc.setDialogTitle("Choose a directory to save your file: ");
+        jfc.setDialogTitle("Wybierz katalog do zapisania pliku : ");
         jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         int returnValue = jfc.showSaveDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             if (jfc.getSelectedFile().isDirectory()) {
-                return jfc.getSelectedFile();
+                directoryPath= jfc.getSelectedFile().getAbsolutePath();
             }
         }
-            return null;
+    }
+
+    public static String getDirectoryPath() {
+        return directoryPath;
     }
 }

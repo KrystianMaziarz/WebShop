@@ -70,6 +70,13 @@ public class WelcomeController {
         return "additem";
     }
 
+    @GetMapping({"wellcome/admin/additem/withPhotoUrl"})
+    public String getItemPanel(HttpServletRequest request, Model model) {
+        String photolocation = (String) request.getSession().getAttribute("photoUrl");
+        model.addAttribute("photolocation", photolocation);
+        return "additem";
+    }
+
     @GetMapping({"/wellcome/admin/findcustomer"})
     public String findCustomerPanel(HttpServletRequest httpServletRequest, Model model) {
         List customers = (List) httpServletRequest.getSession().getAttribute("customers");

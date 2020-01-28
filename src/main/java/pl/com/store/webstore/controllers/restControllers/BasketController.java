@@ -30,6 +30,7 @@ public class BasketController {
     private BasketService basketService;
     private CustomerService customerService;
     private ItemService itemService;
+    private List<ItemDto> items;
 
     public BasketController(BasketService basketService, CustomerService customerService, ItemService itemService) {
         this.basketService = basketService;
@@ -62,31 +63,32 @@ public class BasketController {
     public void showBasket(@ModelAttribute("basket") Basket basket, HttpServletRequest request, HttpServletResponse response) {
 
         Basket foundBasket = basketService.getBasket(basket.getCustomerId());
-        List<ItemDto> items = foundBasket.getItems();
-        ItemDtoWrapper wrapper=new ItemDtoWrapper();
+        items = foundBasket.getItems();
+        ItemDtoWrapper wrapper = new ItemDtoWrapper();
         items.forEach(wrapper::addItemDto);
         Long customerId = foundBasket.getCustomerId();
         String url = "/baskethtml";
         request.getSession().setAttribute("wrapper", wrapper);
         request.getSession().setAttribute("customerId", customerId);
         setResponse(response, url);
+
     }
 
     @PostMapping("/buy")
-    public void setBoughtBasket(@ModelAttribute("wrapToSend") ItemDtoWrapper receivedWrapper, HttpServletRequest request, HttpServletResponse response) {
-        ItemDtoWrapper wrapperToSend=new ItemDtoWrapper();
+    public void setBoughtBasket(HttpServletRequest request, HttpServletResponse response) {
+        ItemDtoWrapper wrapperToSend = new ItemDtoWrapper();
         Principal currentUser = request.getUserPrincipal();
         Customer customer = customerService.findByEmail(currentUser.getName());
-        List<ItemDto> items1 = receivedWrapper.getItems();
-        Order order = getOrder(items1, customer);
-        List<Item> items = getListOfItems(items1, order);
-        List<ItemDto> dtos = items.stream().map(ItemMapper::mapToDto).collect(Collectors.toList());
+
+        Order order = getOrder(items, customer);
+        List<Item> itemz = getListOfItems(items, order);
+        List<ItemDto> dtos = itemz.stream().map(ItemMapper::mapToDto).collect(Collectors.toList());
         dtos.forEach(wrapperToSend::addItemDto);
 
         OrderDto orderDto = OrderMapper.mapToDto(order);
 
         String url = "/payment";
-        request.getSession().setAttribute("basket",true);
+        request.getSession().setAttribute("basket", true);
         request.getSession().setAttribute("itemz", wrapperToSend);
         request.getSession().setAttribute("orderDto", orderDto);
         setResponse(response, url);

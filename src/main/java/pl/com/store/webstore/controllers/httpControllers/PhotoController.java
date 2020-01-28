@@ -1,21 +1,26 @@
 package pl.com.store.webstore.controllers.httpControllers;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.com.store.webstore.photoService.FileChooser;
 
-@Controller
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@RestController
+@RequestMapping("/photos")
 public class PhotoController {
 
 
-
-    @GetMapping("/photos")
-    public String getPhotoPath(Model model){
+    @GetMapping
+    public void getPhotoPath(HttpServletRequest request, HttpServletResponse response) {
         String[] arguments = new String[]{};
         FileChooser.main(arguments);
         String pathFromChooser = FileChooser.getPath();
-        model.addAttribute("photolocation",  pathFromChooser);
-        return "/additem";
+        String url = "wellcome/admin/additem/withPhotoUrl";
+        request.getSession().setAttribute("photoUrl", pathFromChooser);
+        response.setHeader("Location", url);
+        response.setStatus(302);
     }
 }
