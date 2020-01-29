@@ -102,6 +102,7 @@ public class CustomerServiceImpTest {
         addressDto.setStreet("Cicha");
         addressDto.setNumber("8");
         addressDto.setZipcode("13-200");
+        customerDto.setAddressDto(addressDto);
 
         Address expectedAddress = new Address();
         expectedAddress.setCity("Piła");
@@ -122,7 +123,6 @@ public class CustomerServiceImpTest {
 
     @org.junit.Test
     public void shouldDeleteById() throws Exception {
-
         //when
         service.deleteById(1L);
         //then

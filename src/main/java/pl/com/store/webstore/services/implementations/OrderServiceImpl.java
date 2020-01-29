@@ -37,10 +37,9 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public Order addOrderDto(OrderDto orderDto) {
-        // TODO: 16/01/2020 do przebudowania dwie poniższe metody
         Order order = new Order();
         Customer customer = customerRepository.getOne(orderDto.getCustomerId());
-        order.setItems(orderDto.getItems().stream().map(ItemMapper::mapToItem).collect(Collectors.toList()));
+        order.setItems(orderDto.getItems().stream().map(itemDto -> ItemMapper.mapToItem(itemDto,customer)).collect(Collectors.toList()));
         order.setOrderPrice(orderDto.getOrderPrice());
         order.setOrderDate(orderDto.getOrderDate());
         Order persistedOrder = repository.save(order);

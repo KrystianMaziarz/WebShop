@@ -45,25 +45,6 @@ public class Customer {
     @JsonFormat(pattern = "dd-MM-yyyy")
     private LocalDate passwordExpirationDate;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Customer)) return false;
-        Customer customer = (Customer) o;
-        return getIslocked() == customer.getIslocked() &&
-                isEnabled == customer.isEnabled &&
-                Objects.equals(getEmail(), customer.getEmail()) &&
-                Objects.equals(getPassword(), customer.getPassword()) &&
-                Objects.equals(getFirstname(), customer.getFirstname()) &&
-                Objects.equals(getLastname(), customer.getLastname()) &&
-                Objects.equals(getAddress(), customer.getAddress()) &&
-                Objects.equals(getOrders(), customer.getOrders()) &&
-                Objects.equals(authorities, customer.authorities) &&
-                Objects.equals(getAccountExpirationDate(), customer.getAccountExpirationDate()) &&
-                Objects.equals(getPasswordExpirationDate(), customer.getPasswordExpirationDate());
-    }
-
-
     public Long getId() {
         return id;
     }
@@ -158,5 +139,28 @@ public class Customer {
 
     public void setPasswordExpirationDate(LocalDate passwordExpirationDate) {
         this.passwordExpirationDate = passwordExpirationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Customer)) return false;
+        Customer customer = (Customer) o;
+        return getIslocked() == customer.getIslocked() &&
+                isEnabled == customer.isEnabled &&
+                Objects.equals(getEmail(), customer.getEmail()) &&
+                Objects.equals(getPassword(), customer.getPassword()) &&
+                Objects.equals(getFirstname(), customer.getFirstname()) &&
+                Objects.equals(getLastname(), customer.getLastname()) &&
+                Objects.equals(getAddress(), customer.getAddress()) &&
+                Objects.equals(getOrders(), customer.getOrders()) &&
+                Objects.equals(authorities, customer.authorities) &&
+                Objects.equals(getAccountExpirationDate(), customer.getAccountExpirationDate()) &&
+                Objects.equals(getPasswordExpirationDate(), customer.getPasswordExpirationDate());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getEmail(), getPassword(), getFirstname(), getLastname(), getAddress(), getOrders(), authorities, getIslocked(), isEnabled, getAccountExpirationDate(), getPasswordExpirationDate());
     }
 }

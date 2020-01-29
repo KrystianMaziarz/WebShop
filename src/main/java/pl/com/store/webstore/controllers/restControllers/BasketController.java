@@ -7,7 +7,8 @@ import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.entities.Item;
 import pl.com.store.webstore.entities.Order;
 import pl.com.store.webstore.entities.enums.Status;
-import pl.com.store.webstore.services.Basket;
+import pl.com.store.webstore.exceptions.BasketNotExistException;
+import pl.com.store.webstore.services.basket.Basket;
 import pl.com.store.webstore.services.BasketService;
 import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.ItemService;
@@ -60,16 +61,18 @@ public class BasketController {
     }
 
     @GetMapping
-    public void showBasket(@ModelAttribute("basket") Basket basket, HttpServletRequest request, HttpServletResponse response) {
-
-        Basket foundBasket = basketService.getBasket(basket.getCustomerId());
-        items = foundBasket.getItems();
-        ItemDtoWrapper wrapper = new ItemDtoWrapper();
-        items.forEach(wrapper::addItemDto);
-        Long customerId = foundBasket.getCustomerId();
-        String url = "/baskethtml";
-        request.getSession().setAttribute("wrapper", wrapper);
+    public void showBasket(@ModelAttribute("basket") Basket basket, HttpServletRequest request, HttpServletResponse response) throws BasketNotExistException {
+        if (basketService.getBasket(basket.getCustomerId()) != null) {
+            Basket foundBasket = basketService.getBasket(basket.getCustomerId());
+            items = foundBasket.getItems();
+            ItemDtoWrapper wrapper = new ItemDtoWrapper();
+            items.forEach(wrapper::addItemDto);
+            request.getSession().setAttribute("wrapper", wrapper);
+        } else{throw new BasketNotExistException();
+        }
+        Long customerId = basket.getCustomerId();
         request.getSession().setAttribute("customerId", customerId);
+        String url = "/baskethtml";
         setResponse(response, url);
 
     }

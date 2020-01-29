@@ -14,10 +14,13 @@ public class AddressMapper {
 
     public static AddressDto mapToDto(Address address){
         AddressDto addressDto=new AddressDto();
+        if (address!=null){
         addressDto.setCity(address.getCity());
         addressDto.setStreet(address.getStreet());
         addressDto.setNumber(address.getNumber());
         addressDto.setZipcode(address.getZipcode());
+        if (address.getCustomer()!=null){
+        addressDto.setCustomerId(address.getCustomer().getId());}}
 
         return addressDto;
     }

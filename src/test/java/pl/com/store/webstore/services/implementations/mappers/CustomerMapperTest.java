@@ -4,6 +4,7 @@ import com.google.common.collect.Sets;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.springframework.security.core.userdetails.UserDetails;
+import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
 import pl.com.store.webstore.entities.Authority;
@@ -107,6 +108,7 @@ public class CustomerMapperTest {
         customer.setFirstname("Jan");
         customer.setLastname("Nowak");
         customer.setId(1L);
+        address.setCustomer(customer);
         customer.setAddress(address);
 
         CustomerDto expected = new CustomerDto();
@@ -139,7 +141,9 @@ public class CustomerMapperTest {
         expected.setFirstname("Jan");
         expected.setLastname("Nowak");
         expected.setId(1L);
-        expected.setAddressDto(null);
+        AddressDto expectedAddressDto=new AddressDto();
+        expectedAddressDto.setCustomerId(1L);
+        expected.setAddressDto(expectedAddressDto);
         //when
         CustomerDto result = CustomerMapper.mapToDto(customer);
         //then

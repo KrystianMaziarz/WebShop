@@ -25,24 +25,6 @@ public class Address {
         this.number = number;
         this.zipcode = zipcode;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Address)) return false;
-        Address address = (Address) o;
-        return Objects.equals(getCity(), address.getCity()) &&
-                Objects.equals(getStreet(), address.getStreet()) &&
-                Objects.equals(getNumber(), address.getNumber()) &&
-                Objects.equals(getZipcode(), address.getZipcode()) &&
-                Objects.equals(getCustomer(), address.getCustomer());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCity(), getStreet(), getNumber(), getZipcode(), getCustomer());
-    }
-
     public Customer getCustomer() {
         return customer;
     }
@@ -91,4 +73,20 @@ public class Address {
         this.zipcode = zipcode;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Address)) return false;
+        Address address = (Address) o;
+        return Objects.equals(getCity(), address.getCity()) &&
+                Objects.equals(getStreet(), address.getStreet()) &&
+                Objects.equals(getNumber(), address.getNumber()) &&
+                Objects.equals(getZipcode(), address.getZipcode()) &&
+                Objects.equals(getCustomer(), address.getCustomer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCity(), getStreet(), getNumber(), getZipcode(), getCustomer());
+    }
 }
