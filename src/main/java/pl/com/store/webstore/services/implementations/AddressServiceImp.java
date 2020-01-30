@@ -31,7 +31,7 @@ public class AddressServiceImp implements AddressService {
     @Transactional
     public Long addAddress(AddressDto addressDto, CustomerDto customerDto) {
         Customer customer = CustomerMapper.mapToCustomer(customerDto);
-        Authority authority=new Authority();
+        Authority authority = new Authority();
         authority.setAuthority("ROLE_CUSTOMER");
 
         customer.setAuthorities(Sets.newHashSet(authority));
@@ -96,7 +96,7 @@ public class AddressServiceImp implements AddressService {
         if (id == null) {
             throw new Exception("Address does not exist !");
         }
-        Address address=repository.getOne(id);
+        Address address = repository.getOne(id);
         if (address == null) {
             throw new Exception("Cannot find address with specified id");
         }

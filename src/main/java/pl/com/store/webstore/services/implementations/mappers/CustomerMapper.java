@@ -11,12 +11,12 @@ import java.time.LocalDate;
 
 public class CustomerMapper {
 
-    public static UserDetails mapToCustomerDetails(Customer customer){
+    public static UserDetails mapToCustomerDetails(Customer customer) {
 
-        if (customer==null){
+        if (customer == null) {
             return null;
         }
-        CustomCustomerDetails customerDetails=new CustomCustomerDetails();
+        CustomCustomerDetails customerDetails = new CustomCustomerDetails();
         customerDetails.setEmail(customer.getEmail());
         customerDetails.setPassword(customer.getPassword());
         customerDetails.setFirstname(customer.getFirstname());
@@ -31,8 +31,8 @@ public class CustomerMapper {
         return customerDetails;
     }
 
-    public static CustomerDto mapToDto(Customer customer){
-        CustomerDto customerDto=new CustomerDto();
+    public static CustomerDto mapToDto(Customer customer) {
+        CustomerDto customerDto = new CustomerDto();
         customerDto.setId(customer.getId());
         customerDto.setFirstname(customer.getFirstname());
         customerDto.setLastname(customer.getLastname());
@@ -45,8 +45,8 @@ public class CustomerMapper {
         return customerDto;
     }
 
-    public static Customer mapToCustomer(CustomerDto customerDto){
-        Customer customer=new Customer();
+    public static Customer mapToCustomer(CustomerDto customerDto) {
+        Customer customer = new Customer();
         customer.setEmail(customerDto.getEmail());
         customer.setIsEnabled(true);
         customer.setPasswordExpirationDate(LocalDate.now().plusMonths(3));

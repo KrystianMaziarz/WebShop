@@ -10,6 +10,7 @@ import java.util.List;
 
 @Service
 public class CategoryServiceImp implements CategoryService {
+    // TODO: 30/01/2020 cała funkcjonalność category
 
     private CategoryRepository repository;
 
