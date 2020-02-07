@@ -3,6 +3,7 @@ package pl.com.store.webstore.services.implementations.mappers;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import pl.com.store.webstore.controllers.dtos.ItemDto;
+import pl.com.store.webstore.controllers.dtos.OrderDto;
 import pl.com.store.webstore.entities.Category;
 import pl.com.store.webstore.entities.Item;
 import pl.com.store.webstore.entities.Order;
@@ -33,6 +34,7 @@ public class ItemMapperTest {
         expected.setName("Lodówka");
         expected.setPhotoUrl("http://localhost:8080/photos/lodowka.jpg");
         expected.setPrice(BigDecimal.valueOf(123000));
+        expected.setOrders(Lists.newArrayList(new OrderDto()));
         //when
         ItemDto result = ItemMapper.mapToDto(item);
         //then

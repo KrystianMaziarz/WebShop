@@ -2,10 +2,8 @@ package pl.com.store.webstore.services.implementations;
 
 import com.google.common.collect.Sets;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.com.store.webstore.controllers.dtos.AddressDto;
 import pl.com.store.webstore.controllers.dtos.CustomerDto;
 import pl.com.store.webstore.entities.Address;
 import pl.com.store.webstore.entities.Authority;
@@ -17,7 +15,6 @@ import pl.com.store.webstore.services.CustomerService;
 import pl.com.store.webstore.services.implementations.mappers.AddressMapper;
 import pl.com.store.webstore.services.implementations.mappers.CustomerMapper;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -27,19 +24,21 @@ public class CustomerServiceImp implements CustomerService {
     private AddressRepository addressRepository;
     private OrderRepository orderRepository;
 
-    public CustomerServiceImp(CustomerRepository repository, AddressRepository addressRepository,OrderRepository orderRepository) {
+    public CustomerServiceImp(CustomerRepository repository, AddressRepository addressRepository, OrderRepository orderRepository) {
         this.repository = repository;
-        this.addressRepository=addressRepository;
-        this.orderRepository=orderRepository;
+        this.addressRepository = addressRepository;
+        this.orderRepository = orderRepository;
     }
 
     @Override
     public Long addCustomer(CustomerDto customerDto) throws Exception {
         Customer customer = CustomerMapper.mapToCustomer(customerDto);
-        customerDto.getAddressDto().setCustomerId(customer.getId());
-        Address address = AddressMapper.mapToAddress(customerDto.getAddressDto());
-        addressRepository.save(address);
-        customer.setAddress(address);
+        if (customerDto.getAddressDto() != null) {
+            customerDto.getAddressDto().setCustomerId(customer.getId());
+            Address address = AddressMapper.mapToAddress(customerDto.getAddressDto());
+            addressRepository.save(address);
+            customer.setAddress(address);
+        }
         Authority authority = new Authority();
         authority.setAuthority("ROLE_CUSTOMER");
         authority.setCustomer(customer);
@@ -66,7 +65,7 @@ public class CustomerServiceImp implements CustomerService {
     @Override
     @Transactional
     @Secured("ROLE_ADMIN")
-    public Customer updateCustomer(CustomerDto customerDto){
+    public Customer updateCustomer(CustomerDto customerDto) {
         Customer customer = repository.getOne(customerDto.getId());
 
         customer.setEmail(customerDto.getEmail());
@@ -74,17 +73,21 @@ public class CustomerServiceImp implements CustomerService {
         customer.setFirstname(customerDto.getFirstname());
         customer.setLastname(customerDto.getLastname());
 
-        customer.getAddress().setCity(customerDto.getAddressDto().getCity());
-        customer.getAddress().setStreet(customerDto.getAddressDto().getStreet());
-        customer.getAddress().setNumber(customerDto.getAddressDto().getNumber());
-        customer.getAddress().setZipcode(customerDto.getAddressDto().getZipcode());
+        if (customerDto.getAddressDto() != null) {
+            customer.getAddress().setCity(customerDto.getAddressDto().getCity());
+            customer.getAddress().setStreet(customerDto.getAddressDto().getStreet());
+            customer.getAddress().setNumber(customerDto.getAddressDto().getNumber());
+            customer.getAddress().setZipcode(customerDto.getAddressDto().getZipcode());
+        }
 
         return customer;
     }
 
     @Override
     public void deleteById(Long id) throws Exception {
-        orderRepository.deleteAll(repository.getOne(id).getOrders());
+        if (repository.getOne(id) != null) {
+            repository.getOne(id).getOrders().forEach(order -> orderRepository.delete(order));
+        }
         repository.deleteById(id);
     }
 

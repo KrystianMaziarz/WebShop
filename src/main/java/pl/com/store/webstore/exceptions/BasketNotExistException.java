@@ -1,8 +1,8 @@
 package pl.com.store.webstore.exceptions;
 
-public class NoBasketException extends Exception {
+public class BasketNotExistException extends Exception {
 
-    public NoBasketException(){
+    public BasketNotExistException(){
         super("Brak koszyka dla zalogowanego klienta !");
     }
 }

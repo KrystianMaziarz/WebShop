@@ -21,35 +21,7 @@ public class OrderController {
     }
 
     @PostMapping
-    // TODO: 13/01/2020 do poprawy metoda i frontend 
     public ResponseEntity<OrderDto> addOrder(@ModelAttribute("orderDto") OrderDto orderDto) {
-        return ResponseEntity.ok(OrderMapper.mapToDto(service.addOrderDto(orderDto)));
+        return ResponseEntity.ok(OrderMapper.mapToDto(service.addOrder(orderDto)));
     }
-
-    //TODO 15.12.2019
-  /*  @GetMapping
-    public ResponseEntity<List<ItemDto>> findAllOrders() {
-        return ResponseEntity.ok(service.findAllOrders().stream()
-                .map(OrderMapper::mapOrderToDto)
-                .collect(Collectors.toList()));
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ItemDto> findOrderById(@PathVariable Long id) throws Exception {
-        return ResponseEntity.ok(OrderMapper.mapToDto(service.findOrderById(id)));
-    }
-
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ItemDto> updateOrderById (@PathVariable Long id, @RequestBody ItemDto itemDto) throws Exception {
-        return ResponseEntity.ok(OrderMapper.mapToDto(service.updateItemById(id, itemDto)));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteOrderById (@PathVariable Long id) throws Exception {
-        service.deleteOrderById(id);
-        return ResponseEntity.ok("Deleted !");
-    }
-*/
-
 }

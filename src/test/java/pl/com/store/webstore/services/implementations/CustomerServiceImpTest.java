@@ -14,6 +14,8 @@ import pl.com.store.webstore.repositories.CustomerRepository;
 import pl.com.store.webstore.repositories.OrderRepository;
 import pl.com.store.webstore.services.CustomerService;
 
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,30 +52,29 @@ public class CustomerServiceImpTest {
     public void shouldFindAllCustomers() {
         //given
         Mockito.when(repository.findAll()).thenReturn(Lists.newArrayList(new Customer()));
+        List<Customer> expected = Lists.newArrayList(new Customer());
         //when
-        service.findAll();
+        List<Customer> result = service.findAll();
         //then
         Mockito.verify(repository, Mockito.atLeastOnce()).findAll();
+        assertEquals(expected, result);
     }
 
     @org.junit.Test
-    public void findById() {
+    public void shouldFindCustomerById() throws Exception {
         //given
-        Customer customer = new Customer();
-        customer.setId(1L);
-        Mockito.when(repository.getOne(1L)).thenReturn(customer);
+        Customer expected = new Customer();
+        expected.setId(1L);
+        Mockito.when(repository.getOne(1L)).thenReturn(expected);
         //when
-        try {
-            service.findById(1L);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Customer result = service.findById(1L);
         //then
         Mockito.verify(repository, Mockito.atLeastOnce()).getOne(1L);
+        assertEquals(expected, result);
     }
 
     @org.junit.Test
-    public void findByEmail() {
+    public void shouldFindCustomerByEmail() {
         //given
         Customer customer = new Customer();
         customer.setEmail("customer@wp.pl");
@@ -102,6 +103,7 @@ public class CustomerServiceImpTest {
         addressDto.setStreet("Cicha");
         addressDto.setNumber("8");
         addressDto.setZipcode("13-200");
+        customerDto.setAddressDto(addressDto);
 
         Address expectedAddress = new Address();
         expectedAddress.setCity("Piła");
@@ -122,7 +124,6 @@ public class CustomerServiceImpTest {
 
     @org.junit.Test
     public void shouldDeleteById() throws Exception {
-
         //when
         service.deleteById(1L);
         //then

@@ -1,5 +1,6 @@
 package pl.com.store.webstore.controllers.httpControllers;
 
+import com.google.common.collect.Lists;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
@@ -84,11 +85,11 @@ public class WelcomeController {
         return "/findcustomer";
     }
 
-    private List<ItemDto> getItemDtos() throws ItemNotExists {
+    private List<ItemDto> getItemDtos() {
         List<ItemDto> items;
         if (service.findAllItems().isEmpty()) {
 
-            throw new ItemNotExists();
+            return Lists.newArrayList(new ItemDto(null,"Brak przedmiotów",null,null,null,null,null));
 
         } else {
             items = service.findAllItems().stream()

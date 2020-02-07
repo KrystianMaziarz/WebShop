@@ -1,6 +1,7 @@
 package pl.com.store.webstore.services.implementations.mappers;
 
 import pl.com.store.webstore.controllers.dtos.ItemDto;
+import pl.com.store.webstore.entities.Customer;
 import pl.com.store.webstore.entities.Item;
 
 import java.util.stream.Collectors;
@@ -21,7 +22,7 @@ public class ItemMapper {
         return itemDto;
     }
 
-    public static Item mapToItem(ItemDto itemDto) {
+    public static Item mapToItem(ItemDto itemDto, Customer customer) {
         Item item = new Item();
         item.setId(itemDto.getId());
         item.setName(itemDto.getName());
@@ -29,7 +30,7 @@ public class ItemMapper {
         item.setDescription(itemDto.getDescription());
         item.setCategory(itemDto.getCategory());
         item.setPhotoUrl(itemDto.getPhotoUrl());
-        item.setOrders(itemDto.getOrders().stream().map(OrderMapper::mapToOrder).collect(Collectors.toList()));
+        item.setOrders(itemDto.getOrders().stream().map(orderDto -> OrderMapper.mapToOrder(orderDto,customer)).collect(Collectors.toList()));
 
         return item;
     }
