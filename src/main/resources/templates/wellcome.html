@@ -52,10 +52,12 @@
         <td th:text="${item.getDescription()}"/>
         <td th:text="${item.getPrice()}"/>
         <td th:text="${item.getCategory()}"/>
-        <td th:text="${item.getPhotoUrl()}"/>
+        <div th:cellpadding="100px">
+        <img th:if="${item.getPhotoUrl()!=null}" th:src="${item.getPhotoUrl()}" width="80px" height="86px"  th:alt="${item.getPhotoUrl()}"/>
+        </div>
         <td>
             <br>
-            <div th:if="${logged}">
+            <div th:if="${logged} and ${!item.getName().equalsIgnoreCase('Brak przedmiotów')}">
                 <form action="/basket/add" method="post" style="display: inline-block" object="${item[status.index]}">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <input id="forGetid" name="id" th:value="${item.getId()}" type="hidden"/>
